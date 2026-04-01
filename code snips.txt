@@ -1,0 +1,164 @@
+HTML --------------------------------
+<div class="postsymbols">
+            <!-- Updoot -->
+            <div class="action-item" data-action="updoot">
+                <span class="counter">{{updootsUp}}</span>
+                <svg class="post-action" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"><path d="M440-320h80v-168l64 64 56-56-160-160-160 160 56 56 64-64v168Zm40 240q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"/></svg>
+            </div>
+            
+            <!-- Downdoot -->
+            <div class="action-item" data-action="downdoot">
+                <span class="counter">{{updootsDown}}</span>
+                <svg class="post-action" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"><path d="m480-320 160-160-56-56-64 64v-168h-80v168l-64-64-56 56 160 160Zm0 240q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"/></svg>
+            </div>
+            
+            <!-- Star -->
+            <div class="action-item" data-action="star">
+                <span class="counter">{{starCount}}</span>
+                <svg class="post-action" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#D9D9D9"><path d="m354-287 126-76 126 77-33-144 111-96-146-13-58-136-58 135-146 13 111 97-33 143ZM233-120l65-281L80-590l288-25 112-265 112 265 288 25-218 189 65 281-247-149-247 149Zm247-350Z"/></svg>
+            </div>
+            
+            <!-- Message/Comment -->
+            <div class="action-item" data-action="message">
+                <span class="counter">{{commentCount}}</span>
+                <svg class="post-action" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"><path d="M240-400h480v-80H240v80Zm0-120h480v-80H240v80Zm0-120h480v-80H240v80ZM880-80 720-240H160q-33 0-56.5-23.5T80-320v-480q0-33 23.5-56.5T160-880h640q33 0 56.5 23.5T880-800v720ZM160-320h594l46 45v-525H160v480Zm0 0v-480 480Z"/></svg>
+            </div>
+            
+            <!-- Share -->
+            <div class="action-item" data-action="share">
+                <span class="counter">{{shareCount}}</span>
+                <svg class="post-action" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#D9D9D9"><path d="M240-80q-33 0-56.5-23.5T160-160v-400q0-33 23.5-56.5T240-640h120v80H240v400h480v-400H600v-80h120q33 0 56.5 23.5T800-560v400q0 33-23.5 56.5T720-80H240Zm200-240v-447l-64 64-56-57 160-160 160 160-56 57-64-64v447h-80Z"/></svg>
+            </div>
+</div>
+
+CSS ---------------------------------
+
+
+.postsymbols {
+    margin-top: 20px;
+    margin-left: 20px;
+    display: flex;
+    flex-direction: row !important;
+}
+
+.postsymbols .post-action {
+    width: 30px !important;
+    height: 30px !important;
+    flex-shrink: 0;
+    cursor: pointer;
+    fill: var(--secondary);
+}
+
+.postsymbols .post-action:hover {
+    fill: var(--accent);
+}
+
+.action-item {
+    display: flex;
+    align-items: center;
+    margin-right: 5px;
+    cursor: pointer;
+    margin-right: 50px;
+}
+
+.counter{
+    font-size: 16px;
+    margin-right: 10px;
+    color: var(--secondary);
+}
+
+
+SEARCH FUNCTION (harvested from main timeline.html) ----------------------
+
+    <script>
+        // Post modal link functionality
+        document.getElementById('post-modal-link').addEventListener('click', function(e) {
+            e.preventDefault();
+            // This will work if the parent page has the post modal
+            if (window.parent && window.parent.$) {
+                window.parent.$("#post-iframe").attr("src", " PostModal.html");
+                window.parent.$("#post-composer-modal").fadeIn(300);
+            } else {
+                // Fallback if not in iframe
+                window.location.href = ' PostModal.html';
+            }
+        });
+    </script>
+
+    <script>
+        const searchInput = document.getElementById("search-input");
+        const searchResults = document.getElementById("search-results");
+
+        let timer;
+
+        // Show popup
+        function showPopup() {
+            searchResults.style.display = 'block';
+        }
+
+        // Hide popup
+        function hidePopup() {
+            searchResults.style.display = 'none';
+        }
+
+        searchInput.addEventListener("keyup", () => {
+            clearTimeout(timer);
+
+            timer = setTimeout(async () => {
+                const query = searchInput.value.trim();
+
+                if(query === ""){
+                    searchResults.innerHTML = "";
+                    hidePopup();
+                    return;
+                }
+
+                try {
+                    const response = await fetch(`/api/search?q=${query}`);
+                    const result = await response.json();
+
+                    searchResults.innerHTML = "";
+
+                    // USERS
+                    result.data.users.forEach(user => {
+                        const userDiv = document.createElement('div');
+                        userDiv.className = 'search-user';
+                        userDiv.innerHTML = `<img src="${user.profilePic}" width="30"><span>${user.username}</span>`;
+                        
+                        // Navigate to user page when clicked
+                        userDiv.addEventListener('click', () => {
+                            window.location.href = `/SearchUser.html?userId=${user._id}`;
+                        });
+
+                        searchResults.appendChild(userDiv);
+                    });
+
+                    // POSTS
+                    result.data.posts.forEach(post => {
+                        const postDiv = document.createElement('div');
+                        postDiv.className = 'search-post';
+                        postDiv.innerHTML = `<b>${post.user.username}</b><p>${post.content}</p>`;
+                        
+                        // Navigate to post page when clicked
+                        postDiv.addEventListener('click', () => {
+                            window.location.href = `/PostPage.html?postId=${post._id}`;
+                        });
+
+                        searchResults.appendChild(postDiv);
+                    });
+
+                    showPopup();
+
+                } catch(error){
+                    console.error("Search error:", error);
+                }
+            }, 300);
+        });
+
+        // Hide popup when clicking outside
+        document.addEventListener('click', (e) => {
+            if(!searchResults.contains(e.target) && e.target !== searchInput){
+                hidePopup();
+            }
+        });
+    </script>
