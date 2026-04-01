@@ -1,0 +1,120 @@
+@import url(stylesheet.css);
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--main);  
+    font-family: 'Figtree', sans-serif;
+    color: var(--posts);
+    margin: 0;
+    padding: 20px;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.report-page {
+    background-color: var(--main);
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 30px;
+    border-radius: 12px;
+    position: relative;
+}
+
+/* Form styling */
+#report-form {
+    background-color: var(--main);
+    color: var(--posts);
+}
+
+#report-form h2 {
+    color: var(--posts);
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--secondary);
+}
+
+#report-form label {
+    color: var(--posts);
+    display: block;
+    margin-top: 15px;
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+#report-form input[type="text"],
+#report-form input[type="date"],
+#report-form select,
+#report-form textarea {
+    width: 100%;
+    padding: 10px;
+    background-color: var(--secondary);
+    border: 1px solid var(--tertiary);
+    color: var(--posts);
+    border-radius: 8px;
+    font-family: 'Figtree', sans-serif;
+    font-size: 14px;
+}
+
+#report-form input[type="text"]:focus,
+#report-form input[type="date"]:focus,
+#report-form select:focus,
+#report-form textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+}
+
+#report-form input[type="radio"] {
+    margin-right: 8px;
+    accent-color: var(--accent);
+}
+
+#report-form input[type="radio"] + label {
+    display: inline;
+    margin-right: 15px;
+}
+
+#report-form input[type="submit"] {
+    background-color: var(--accent);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 30px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    width: auto;
+    min-width: 120px;
+    align-self: center;
+}
+
+#report-form input[type="submit"]:hover {
+    background-color: var(--tertiary);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    align-self: center;
+}
+
+/* Make radio buttons display inline */
+#report-form br + input[type="radio"] {
+    margin-top: 10px;
+}
+
+/* Add some spacing */
+br {
+    display: none;
+}
+
+/* Adjust spacing for the radio button section */
+h3 {
+    color: var(--posts);
+    margin: 20px 0 10px 0;
+}

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href=" PostModal.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href='https://fonts.googleapis.com/css?family=Figtree:400,300,700' rel='stylesheet' type='text/css'> 
+</head>
+<body>
+
+<div class="post-container">
+    <h2>Compose New Post</h2>
+
+    <div id="attachment-preview">
+        <img id="preview-img" src="#" alt="Preview">
+        <p id="preview-filename"></p>
+    </div>
+
+    <textarea id="postMessage" placeholder="What's happening?" maxlength="140"></textarea>
+
+    <div class="button-container">
+        <input type="file" id="insertion" accept="image/*,video/*" hidden multiple>
+        <button id="insertFile" class="insertButton">Insert File</button>
+        <button id="clearPost" class="clearButton">Clear</button>
+        <button id="submitPost" class="postButton">Post</button>
+    </div>
+</div>
+
+<script src=" PostModal.js"></script>
+</body>
+</html>

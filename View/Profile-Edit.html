@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<title>Edit Profile Settings</title>
+<link rel="stylesheet" href="Profile-Edit.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<div class="containersettings">
+    <!-- LEFT COLUMN -->
+    <div class="profile-column">
+        <div class="profile-pic-section">
+            <form id="uploadForm">
+                <label for="profilePic" class="upload-btn">
+                    <img id="profilePreview" src="../assets/defaultuser.png" alt="Profile Picture" class="image" />
+                </label>
+                <h3>Profile Picture</h3>
+                <label for="profilePic" class="btn">Change Photo</label>
+                <input type="file" id="profilePic" accept="image/*" style="display:none" />
+            </form>
+        </div>
+        
+        <div class="cover-pic-section">
+            <form id="uploadForm2">
+                <label for="coverPic" class="upload-btn">
+                    <img id="coverPreview" src="../assets/defaultcover.jpg" alt="Cover Picture" class="cover" />
+                </label>
+                <h3>Cover Picture</h3>
+                <label for="coverPic" class="btn">Change Cover</label>
+                <input type="file" id="coverPic" accept="image/*" style="display:none" />
+            </form>
+        </div>
+    </div>
+    
+    <!-- RIGHT COLUMN - All Forms -->
+    <div class="forms-column">
+        <div class="setting">
+            <h3>Username</h3>
+            <label><input type="text" name="username" placeholder="@username"></label> 
+        </div>
+        
+        <div class="setting">
+            <h3>Display Name</h3>
+            <label><input type="text" name="displayname" placeholder="New Display Name"></label> 
+        </div>
+        
+        <div class="bio">
+            <h3>Bio</h3>
+            <label>
+                <textarea name="bio" placeholder="About Me" rows="4"></textarea>
+            </label> 
+        </div>
+        
+        <div class="setting">
+            <h3>Tags</h3>
+            <label><input type="text" name="tags" placeholder="e.g: '#Creative, #Inspired'"></label> 
+            <label for="addTag" class="addbtn">+ Add Tag</label>
+        </div>
+        
+        <div class="setting">
+            <h3>Location</h3>
+            <label><input type="text" name="location" placeholder="City / Country (Optional)"></label> 
+        </div>
+
+        <div class="setting">
+            <h3>More Contacts</h3>
+            <div id="contact-links-container">
+
+            </div>
+            <button type="button" id="add-contact-link" class="addbtn">+ Add Contact Link</button>
+        </div>
+    </div>
+    
+    <!-- SAVE BUTTON - Spans both columns -->
+    <div class="save-section">
+        <a href="#" class="btn" id="save-profile-btn">Save Changes</a>
+    </div>
+    
+</div>
+
+<script src="Profile-Edit.js"></script>
+
+</html>

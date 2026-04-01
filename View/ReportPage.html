@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Report an issue</title>
+    <link rel="stylesheet" href=" ReportPage.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href='https://fonts.googleapis.com/css?family=Figtree:400,300,700' rel='stylesheet' type='text/css'> 
+</head>
+<body>
+    <div class="report-page">
+        <form id="report-form">
+            <h2>Report an issue</h2>
+
+            <label for="report-user-id">User filing:</label>
+            <input type="text" id="report-user-id" name="user-id" value="@username">
+
+            <label for="report-date">Date filed:</label>
+            <input type="date" id="report-date" name="report-date">
+
+            <br><br>
+
+            <h3>Severity:</h3>
+            <input type="radio" id="mild" name="severity" value="mild">
+            <label for="mild">Mild</label><br>
+            <input type="radio" id="moderate" name="severity" value="moderate">
+            <label for="moderate">Moderate</label><br>
+            <input type="radio" id="severe" name="severity" value="severe">
+            <label for="severe">Severe</label><br>
+
+            <label for="categories">Report Categories:</label>
+            <select name="categories" id="categories">
+                <option value="profile-issue">Profile issue</option>
+                <option value="bugs-and-glitches">Bugs and glitches</option>
+                <option value="issue-with-user">Issue with user</option>
+                <option value="harassment">Harassment</option>
+            </select>
+
+            <br><br>
+            
+            <!-- Harassment section - hidden by default -->
+            <div id="harassment-section" style="display: none;">
+                <label for="harassment">Harassment:</label>
+                <select name="issue-with-user-sub" id="harassment">
+                    <option value="abuse">Abuse & Harassment</option>
+                    <option value="child-safety">Child Safety</option>
+                    <option value="privacy">Privacy</option>
+                    <option value="illegal">Illegal Behaviors</option>
+                    <option value="sensitive">Sensitive or Disturbing Media</option>
+                    <option value="impersonation">Impersonation</option>
+                </select>
+                <br><br>
+            </div>
+
+            <label for="description">Report Description:</label><br>
+            <textarea id="description" name="description" rows="5" cols="50">Describe the report to be filed.</textarea>
+
+            <br><br>
+            <input type="submit" value="Submit">
+            <br><br>
+        </form>
+    </div>
+    <script src=" ReportPage.js"></script>
+</body>
+</html>

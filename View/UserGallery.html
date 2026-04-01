@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Gallery</title>
+    <link rel="stylesheet" href="UserGallery.css">
+    <link rel="stylesheet" href="stylesheet.css">
+    <link href='https://fonts.googleapis.com/css?family=Figtree:400,300,700' rel='stylesheet' type='text/css'> 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+<div class="containergallery">
+    <h2 class="galleryheader">User Gallery</h2>
+
+    <div class="gallerycard">
+        <div class="row">
+            <img id="gallery-img" src="../assets/defaultuser.png" alt="Profile Picture" class="imagegallery"/>
+            <div class="gallerytext">
+                <div class="galleryhead" id="gallery-dn"><h2>User</h2></div>
+                <div class="galleryhead" id="gallery-un"><h4>@username</h4></div>
+                <div class="galleryhead" id="gallery-bio"><h4>This is my user bio!!!!</h4></div>
+                <div class="galleryhead" id="gallery-tags"><h4>#NewUser</h4></div>
+            </div> 
+        </div>
+    </div>
+
+    <div class="galleryimg">
+    </div>
+    
+    <input type="file" id="fileInput" accept="image/*" style="display:none">
+    <button type="button" id="uploadgalleryimg" class="action-btn">Upload Gallery Image</button>
+
+    <div id="upload-form" style="display:none; text-align:center; margin-top:10px;">
+        <input type="text" id="imageTitle" placeholder="Enter image title..." maxlength="50" />
+        <button type="button" id="confirmUpload">Upload</button>
+        <button type="button" id="cancelUpload">Cancel</button>
+    </div>
+
+    <div id="lightbox" onclick="closeLightbox()">
+        <div id="lightbox-content" onclick="event.stopPropagation()">
+            <button id="lightbox-close" onclick="closeLightbox()">X</button>
+            <img id="lightbox-img" src="" />
+            <p id="lightbox-dimensions"></p>
+            <button id="lightbox-delete-btn" onclick="promptDelete()">Delete Image</button>
+
+            <!-- confirmation — hidden by default -->
+            <div id="lightbox-confirm-delete">
+                <p>Are you sure you want to delete this image?</p>
+                <button id="confirm-yes" onclick="confirmDelete()">Confirm</button>
+                <button id="confirm-no" onclick="cancelDelete()">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="UserGallery.js"></script>
+</body>
+</html>

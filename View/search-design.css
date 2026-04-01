@@ -1,0 +1,58 @@
+/* Container for search bar (parent must be relative) */
+#searchbar {
+    position: relative; /* needed for popup positioning */
+}
+
+/* Popup container */
+#search-results {
+    position: absolute;
+    top: 100px; /* distance below input */
+    left: 0;
+    width: 300px; /* adjust as needed */
+    max-height: 400px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    overflow-y: auto;
+    display: none; /* hidden initially */
+    z-index: 999;
+    padding: 5px 0;
+    transition: opacity 0.2s ease-in-out;
+}
+
+/* Individual user result */
+#search-results .search-user,
+#search-results .search-post {
+    padding: 8px 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Hover effect */
+#search-results .search-user:hover,
+#search-results .search-post:hover {
+    background-color: #f2f2f2;
+}
+
+/* User profile pic */
+#search-results .search-user img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* Post content styling */
+#search-results .search-post b {
+    font-weight: 600;
+    margin-right: 5px;
+}
+
+#search-results .search-post p {
+    margin: 2px 0 0 0;
+    font-size: 0.9rem;
+    color: #333;
+    word-break: break-word;
+}

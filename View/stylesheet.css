@@ -1,0 +1,105 @@
+@font-face {
+    font-family: 'Figtree';
+    src: url(../assets/Figtree-Regular.ttf);
+    font-weight: 400;
+    font-style: normal
+}
+
+@font-face {
+    font-family: 'Figtree';
+    src: url(../assets/Figtree-SemiBold.ttf);
+    font-weight: 600;
+    font-style: normal
+}
+
+
+:root {
+    --main: #22081F; /*bg and in tag text*/
+    --secondary: #824882;
+    --posts: #DECBDE; /*post texts*/
+    --accent: #E77664;
+    --tertiary: #D17FC7; /*big buttons and tags*/
+}   
+
+.lightmode{
+    --main: #F5D5F2;
+    --posts: #22081F;
+}
+
+body{
+    background-color: var(--main);
+    font-family: 'Figtree';
+}
+
+/*buttons and tags*/
+
+
+#theme-switch {
+    height:50px;
+    width: 50px;
+    padding: 0;
+    border: none;
+    border-radius: 30px;
+    background: var(--secondary);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position:fixed;
+    top: 10px;
+    right: 20px;
+    cursor: pointer;
+}
+
+#theme-switch svg{
+    fill: var(--main);
+}
+
+#theme-switch svg:last-child{
+    display: none;
+}
+
+.lightmode #theme-switch svg:first-child{
+    display: none;
+}
+
+.lightmode #theme-switch svg:last-child{
+    display: block;
+}
+
+
+.tag a {
+    color: var(--main); /*ensures the links inside tags stay dark*/
+    text-decoration: none;
+}
+.tag a:hover {
+    color:  var(--main);
+    text-decoration: none;
+}
+
+.tag {
+    background-color: var(--tertiary);
+    border-radius: 38px;
+    border: none;
+    padding: 5px 10px;
+    display: flex;
+}
+
+.mainbtns {
+    background-color: #D17FC7;
+    border-radius: 38px;
+    border: none;
+    padding: 10px 30px;
+    display: flex;
+}
+
+#postbutton {
+    font-size: 20px;
+    padding: 10px 60px;
+}
+
+#postbutton img {
+    width: 27px;
+    height: 27px;
+    padding-right: 20px;
+}
+

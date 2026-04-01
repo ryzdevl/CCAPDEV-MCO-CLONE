@@ -1,0 +1,49 @@
+
+#logo {
+    display: none;
+}
+
+#logo-dark {
+    display: block;
+}
+
+body.lightmode #logo-dark {
+    display: none;
+}
+
+body.lightmode #logo {
+    display: block;
+}
+
+.popup {
+  display: none; 
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  justify-content: center;
+  align-items: center;
+}
+
+.popup-content {
+  background: #f5d5f2;
+  padding: 20px 30px;
+  padding-bottom: -20px;
+  border-radius: 10px;
+  text-align: center;
+  width: 300px;
+}
+
+.btn {
+    width: 150px;
+    padding: 10px;
+    font-size: 14px;
+    border: none;
+    border-radius: 20px;
+    background-color: var(--secondary);
+    color: #F5D5F2;
+    cursor: pointer;
+}
+

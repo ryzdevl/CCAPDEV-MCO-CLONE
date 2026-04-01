@@ -1,0 +1,25 @@
+<div id="thread-modal" class="modal">
+    <div class="modal-content">
+        <span class="close-thread-modal">&times;</span>
+        
+        <!-- Original Post -->
+        <div id="original-post-container"></div>
+        
+        <!-- Reply Textbox -->
+        <div id="reply-input-section">
+            <textarea id="reply-content" rows="3" placeholder="Write a reply..."></textarea>
+            <div id="reply-attachment-preview"></div>
+            <div class="reply-actions">
+                <label for="reply-attachment" class="attach-btn">📎 Attach Image</label>
+                <input type="file" id="reply-attachment" accept="image/*" style="display: none;">
+                <button id="submit-reply-btn" class="action-btn">Post Reply</button>
+            </div>
+        </div>
+        
+        <!-- Replies Header -->
+        <h3>Replies</h3>
+        
+        <!-- Replies Container -->
+        <div id="thread-container"></div>
+    </div>
+</div>
