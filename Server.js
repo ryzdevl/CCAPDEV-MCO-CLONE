@@ -19,9 +19,17 @@ webapp.use('/assets', express.static(path.join(__dirname, 'assets')));
 webapp.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 mongoose.connect(process.env.MONGO_URI)
-    .then(() => console.log("MongoDB connected"))
-    .catch(err => console.error(err));
-console.log("MONGO_URI:", process.env.MONGO_URI);
+.then(() => {
+    console.log("MongoDB connected");
+
+    app.listen(process.env.PORT || 3000, () => {
+        console.log("Server running");
+    });
+
+})
+.catch(err => {
+    console.error("MongoDB connection failed:", err);
+});
 
 db.once('open',() => {
     console.log("MongoDB connection successful")
