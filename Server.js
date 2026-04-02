@@ -18,7 +18,9 @@ webapp.use('/assets', express.static(path.join(__dirname, 'assets')));
 // serve uploaded files from uploads folder
 webapp.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-mongoose.connect('mongodb://127.0.0.1:27017/inkling');
+mongoose.connect(process.env.MONGO_URI)
+    .then(() => console.log("MongoDB connected"))
+    .catch(err => console.error(err));
 
 db.once('open',() => {
     console.log("MongoDB connection successful")
