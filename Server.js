@@ -1017,11 +1017,21 @@ webapp.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'View', 'Home-Page.html'));
 });
 
+webapp.get('*.html', (req, res) => {
+    const filePath = path.join(__dirname, 'View', req.path);
+    if (fs.existsSync(filePath)) {
+        res.sendFile(filePath);
+    } else {
+        res.status(404).send('<h1>Error 404: Resource not found.</h1>');
+    }
+});
+
 // 404 handler
 webapp.use((req, res) => {
     res.status(404);
     res.send('<h1>Error 404: Resource not found.</h1>');
 });
+
 
 // https://www.w3schools.com/nodejs/nodejs_filesystem.asp
 // MAIN REFERENCE: https://www.youtube.com/watch?v=fyc-4YmgLu0 bless this man heart fr 
