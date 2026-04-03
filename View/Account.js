@@ -34,7 +34,7 @@ function register(event) {
         if (data.success) {
             alert("Account created successfully! Please login.");
             // Redirect to login page
-            window.location.href = "Login-Page.html";
+            window.location.href = "/Login-Page.html";
         } else {
             alert("Error: " + data.error);
         }
@@ -77,7 +77,7 @@ function login(event) {
             
             alert("Login successful!");
             // Redirect to home page or user page
-            window.location.href = "UserPage.html";
+            window.location.href = "/UserPage.html";
         } else {
             alert("Error: " + data.error);
         }
@@ -100,5 +100,5 @@ function getCurrentUser() {
 // ===== LOGOUT =====
 function logoutUser() {
     localStorage.removeItem('currentUser');
-    window.location.href = "Home-Page.html";
+    window.location.href = "/Home-Page.html";
 }
