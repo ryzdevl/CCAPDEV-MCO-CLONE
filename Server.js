@@ -22,7 +22,7 @@ mongoose.connect(process.env.MONGO_URI)
 .then(() => {
     console.log("MongoDB connected");
 
-    app.listen(process.env.PORT || 3000, () => {
+    webapp.listen(process.env.PORT || 3000, () => {
         console.log("Server running");
     });
 
@@ -1021,10 +1021,6 @@ webapp.get('/', (req, res) => {
 webapp.use((req, res) => {
     res.status(404);
     res.send('<h1>Error 404: Resource not found.</h1>');
-});
-
-webapp.listen(port, () => {
-    console.log("App listening on port " + port);
 });
 
 // https://www.w3schools.com/nodejs/nodejs_filesystem.asp
