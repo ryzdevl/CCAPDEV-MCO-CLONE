@@ -1019,6 +1019,10 @@ webapp.get('/', (req, res) => {
 
 webapp.get(/\.html$/, (req, res) => {
     const filePath = path.join(__dirname, 'View', req.path);
+    console.log('Requested path:', req.path);
+    console.log('Looking for file at:', filePath);
+    console.log('File exists:', fs.existsSync(filePath));
+    
     if (fs.existsSync(filePath)) {
         res.sendFile(filePath);
     } else {
