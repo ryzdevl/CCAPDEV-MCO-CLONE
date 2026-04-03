@@ -1017,7 +1017,7 @@ webapp.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'View', 'Home-Page.html'));
 });
 
-webapp.get('*.html', (req, res) => {
+webapp.get(/\.html$/, (req, res) => {
     const filePath = path.join(__dirname, 'View', req.path);
     if (fs.existsSync(filePath)) {
         res.sendFile(filePath);
