@@ -10,9 +10,6 @@ const Contact = require('./Model/Contact');
 const db = mongoose.connection;
 const webapp = express();
 const port = 6767;
-const API_BASE = window.location.hostname === 'localhost'
-    ? 'http://localhost:6767'
-    : 'https://ccapdev-mco-clone.onrender.com/';
 
 // these two lines will open everything in the View and assets folders
 webapp.use(express.static(path.join(__dirname, 'View')));
@@ -25,7 +22,7 @@ mongoose.connect(process.env.MONGO_URI)
 .then(() => {
     console.log("MongoDB connected");
 
-    app.listen(process.env.PORT || 6767, () => {
+    app.listen(process.env.PORT || 3000, () => {
         console.log("Server running");
     });
 
@@ -55,7 +52,7 @@ const upload = multer({ storage }); // for file uploads
 // API ROUTING
 
 // GET posts (omg nscom reference)
-webapp.get('${API_BASE}/api/posts', async (req, res) => {
+webapp.get('/api/posts', async (req, res) => {
     try {
         const posts = await Post.find()
             .populate('user')
@@ -72,7 +69,7 @@ webapp.get('${API_BASE}/api/posts', async (req, res) => {
 
 // CREATING posts
 /// NOTE: this supports 10 file uploads!
-webapp.post('${API_BASE}/api/posts', upload.array('attachments', 10), async (req, res) => {
+webapp.post('/api/posts', upload.array('attachments', 10), async (req, res) => {
     try {
         const { content, userId, parentPost } = req.body;
         
@@ -97,7 +94,7 @@ webapp.post('${API_BASE}/api/posts', upload.array('attachments', 10), async (req
         if (req.files && req.files.length > 0) {
             postData.attachments = req.files.map(file => ({
                 filename: file.originalname,
-                path: `${API_BASE}/uploads/${file.filename}`,
+                path: `/uploads/${file.filename}`,
                 size: file.size,
                 mimetype: file.mimetype
             }));
@@ -121,7 +118,7 @@ webapp.post('${API_BASE}/api/posts', upload.array('attachments', 10), async (req
 });
 
 // GET single post
-webapp.get('${API_BASE}/api/posts/:id', async (req, res) => {
+webapp.get('/api/posts/:id', async (req, res) => {
     try {
         const post = await Post.findById(req.params.id).populate('user');
         if (!post) {
@@ -134,7 +131,7 @@ webapp.get('${API_BASE}/api/posts/:id', async (req, res) => {
 });
 
 // UPDATE (EDIT) a post
-webapp.put('${API_BASE}/api/posts/:id', upload.array('attachments', 5), async (req, res) => {
+webapp.put('/api/posts/:id', upload.array('attachments', 5), async (req, res) => {
     try {
         const { content, userId, keepAttachments } = req.body;
         const postId = req.params.id;
@@ -195,7 +192,7 @@ webapp.put('${API_BASE}/api/posts/:id', upload.array('attachments', 5), async (r
 });
 
 // DELETE a post
-webapp.delete('${API_BASE}/api/posts/:id', async (req, res) => {
+webapp.delete('/api/posts/:id', async (req, res) => {
     try {
         const { userId } = req.body;
         const postId = req.params.id;
@@ -235,7 +232,7 @@ webapp.delete('${API_BASE}/api/posts/:id', async (req, res) => {
 });
 
 // TOGGLE HIGHLIGHT STATUS (for user's own posts only)
-webapp.post('${API_BASE}/api/posts/:id/highlight', async (req, res) => {
+webapp.post('/api/posts/:id/highlight', async (req, res) => {
     try {
         const { userId } = req.body;
         const postId = req.params.id;
@@ -287,7 +284,7 @@ webapp.post('${API_BASE}/api/posts/:id/highlight', async (req, res) => {
 });
 
 // GET HIGHLIGHTED POSTS for a specific user
-webapp.get('${API_BASE}/api/users/:userId/highlights', async (req, res) => {
+webapp.get('/api/users/:userId/highlights', async (req, res) => {
     try {
         const userId = req.params.userId;
         
@@ -307,7 +304,7 @@ webapp.get('${API_BASE}/api/users/:userId/highlights', async (req, res) => {
 });
 
 // SHARE A POST
-webapp.post('${API_BASE}/api/posts/:id/share', async (req, res) => {
+webapp.post('/api/posts/:id/share', async (req, res) => {
     try {
         const { userId } = req.body;
         const originalPost = await Post.findById(req.params.id);
@@ -354,7 +351,7 @@ webapp.post('${API_BASE}/api/posts/:id/share', async (req, res) => {
 });
 
 // POST a comment to a post (creates a new post but under the thread)
-webapp.post('${API_BASE}/api/posts/:postId/reply', upload.array('attachments', 5), async (req, res) => {
+webapp.post('/api/posts/:postId/reply', upload.array('attachments', 5), async (req, res) => {
     try {
         const { userId, content } = req.body;
         const parentPostId = req.params.postId;
@@ -407,7 +404,7 @@ webapp.post('${API_BASE}/api/posts/:postId/reply', upload.array('attachments', 5
 });
 
 // GET all replies for a post (comment thread)
-webapp.get('${API_BASE}/api/posts/:postId/thread', async (req, res) => {
+webapp.get('/api/posts/:postId/thread', async (req, res) => {
     try {
         const replies = await Post.find({ 
             commentParent: req.params.postId,
@@ -427,7 +424,7 @@ webapp.get('${API_BASE}/api/posts/:postId/thread', async (req, res) => {
 // ========== USER API ROUTES ==========
 
 // CREATE new account (sign up)
-webapp.post('${API_BASE}/api/users/register', async (req, res) => {
+webapp.post('/api/users/register', async (req, res) => {
     const { email, password, birthday, username } = req.body;
 
     try {                
@@ -474,7 +471,7 @@ webapp.post('${API_BASE}/api/users/register', async (req, res) => {
 });
 
 // user login
-webapp.post('${API_BASE}/api/users/login', async (req, res) => {
+webapp.post('/api/users/login', async (req, res) => {
     const { username, password } = req.body;
 
     try {        
@@ -517,7 +514,7 @@ webapp.post('${API_BASE}/api/users/login', async (req, res) => {
 });
 
 // GET user by ID and their posts (for loading user profile page)
-webapp.get('${API_BASE}/api/users/:id', async (req, res) => {
+webapp.get('/api/users/:id', async (req, res) => {
     try {
         const user = await User.findById(req.params.id).populate({
             path: 'posts',
@@ -537,7 +534,7 @@ webapp.get('${API_BASE}/api/users/:id', async (req, res) => {
 });
 
 // UPDATE user profile
-webapp.put('${API_BASE}/api/users/:userId', async (req, res) => {
+webapp.put('/api/users/:userId', async (req, res) => {
     try {
         const userId = req.params.userId;
         const updates = req.body;
@@ -585,7 +582,7 @@ const uploadProfilePic = multer({
     limits: { fileSize: 5 * 1024 * 1024 } // 5MB limit
 });
 
-webapp.post('${API_BASE}/api/users/:userId/profile-pic', uploadProfilePic.single('profilePic'), async (req, res) => {
+webapp.post('/api/users/:userId/profile-pic', uploadProfilePic.single('profilePic'), async (req, res) => {
     try {
         const userId = req.params.userId;
         
@@ -626,7 +623,7 @@ const uploadCoverPic = multer({
     limits: { fileSize: 5 * 1024 * 1024 }
 });
 
-webapp.post('${API_BASE}/api/users/:userId/cover-pic', uploadCoverPic.single('coverPic'), async (req, res) => {
+webapp.post('/api/users/:userId/cover-pic', uploadCoverPic.single('coverPic'), async (req, res) => {
     try {
         const userId = req.params.userId;
         
@@ -676,7 +673,7 @@ const uploadGallery = multer({
 });
 
 // UPLOAD a gallery image
-webapp.post('${API_BASE}/api/users/:id/gallery-pic', (req, res, next) => {
+webapp.post('/api/users/:id/gallery-pic', (req, res, next) => {
     uploadGallery.single('galleryPic')(req, res, (err) => {
         if (err) return res.status(400).json({ success: false, error: err.message });
         next();
@@ -702,7 +699,7 @@ webapp.post('${API_BASE}/api/users/:id/gallery-pic', (req, res, next) => {
 });
 
 // GET gallery
-webapp.get('${API_BASE}/api/users/:id/gallery', async (req, res) => {
+webapp.get('/api/users/:id/gallery', async (req, res) => {
     try {
         const user = await User.findById(req.params.id);
         if (!user) return res.status(404).json({ success: false, error: 'User not found' });
@@ -713,7 +710,7 @@ webapp.get('${API_BASE}/api/users/:id/gallery', async (req, res) => {
 });
 
 // DELETE gallery image
-webapp.delete('${API_BASE}/api/users/:id/gallery-pic', async (req, res) => {
+webapp.delete('/api/users/:id/gallery-pic', async (req, res) => {
     try {
         const { imgPath } = req.body;
 
@@ -739,7 +736,7 @@ webapp.delete('${API_BASE}/api/users/:id/gallery-pic', async (req, res) => {
 });
 
 // FOR USER CONTACTING (UserPage)
-webapp.post('${API_BASE}/api/contact', async(req, res) => {
+webapp.post('/api/contact', async(req, res) => {
     try {
         const { userId, recipientId, contactPurpose, description } = req.body;
 
@@ -765,7 +762,7 @@ webapp.post('${API_BASE}/api/contact', async(req, res) => {
     }
 });
 
-webapp.get('${API_BASE}/api/contact', async (req, res) => {
+webapp.get('/api/contact', async (req, res) => {
     try {
         // Get current user ID from query parameter
         const currentUserId = req.query.userId;
@@ -797,7 +794,7 @@ webapp.get('${API_BASE}/api/contact', async (req, res) => {
 });
 
 // FOR SUBMITTING REPORTS (UserPage)
-webapp.post('${API_BASE}/api/reports', async(req,res) => {
+webapp.post('/api/reports', async(req,res) => {
     try {
         const { reporterId, severity, category, harassmentSub, description } = req.body;
         const reportData = {
@@ -828,7 +825,7 @@ webapp.post('${API_BASE}/api/reports', async(req,res) => {
 });
 
 // ========== SEARCH API (Users + Posts) ==========
-webapp.get('${API_BASE}/api/search', async (req, res) => {
+webapp.get('/api/search', async (req, res) => {
     try {
         const query = req.query.q;
 
@@ -880,7 +877,7 @@ webapp.get('${API_BASE}/api/search', async (req, res) => {
     }
 });
 
-webapp.post('${API_BASE}/api/users/:id/follow', async (req, res) => {
+webapp.post('/api/users/:id/follow', async (req, res) => {
     try {
         const targetUserId = req.params.id;
         const currentUserId = req.body.currentUserId;
@@ -922,7 +919,7 @@ webapp.post('${API_BASE}/api/users/:id/follow', async (req, res) => {
 });
 
 // GET followers or following of a user (full info)
-webapp.get('${API_BASE}/api/users/:id/list/:type', async (req, res) => {
+webapp.get('/api/users/:id/list/:type', async (req, res) => {
     try {
         const userId = req.params.id;
         const listType = req.params.type;
@@ -953,7 +950,7 @@ webapp.get('${API_BASE}/api/users/:id/list/:type', async (req, res) => {
 });
 
 // POST interaction (updoot, downdoot, star, etc.)
-webapp.post('${API_BASE}/api/posts/:postId/interact', async (req, res) => {
+webapp.post('/api/posts/:postId/interact', async (req, res) => {
     try {
         const postId = req.params.postId;
         const { type, userId, active } = req.body;
