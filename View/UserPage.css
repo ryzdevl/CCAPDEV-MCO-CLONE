@@ -542,10 +542,10 @@ a {
 .other-contacts li a, .contact-links li a {
     display: flex;
     width: calc(100% - 20px);
-    background-color: var(--posts);
+    background-color: var(--tertiary);
     padding: 15px;
     margin-left: 0;
-    color: var(--secondary);
+    color: var(--posts);
     border-radius: 8px;
     text-align: center;
     font-size: 15px;
@@ -559,8 +559,8 @@ a {
 }
 
 .other-contacts li a:hover, .contact-links li a:hover {
-    background-color: var(--accent);
-    color: var(--secondary);
+    background-color: var(--posts);
+    color: var(--tertiary);
     transition: all 0.2s ease;
 }
 
@@ -1335,3 +1335,43 @@ footer * {
 
 #edit-save-btn   { background: #a78bfa; color: #fff; }
 #edit-cancel-btn { background: rgba(255,255,255,0.1); color: inherit; }
+
+
+/* Settings button */
+.settings-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 55px;
+    height: 55px;
+    background-color: var(--main);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    z-index: 9999;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    opacity: 70%;
+    direction: ltr;
+}
+
+.settings-btn img {
+    width: 20px;
+    height: auto;
+}
+
+.settings-btn:hover {
+    transform: scale(1.1);
+    opacity: 70%;
+}
+
+/* Theme-specific colors */
+.lightmode .settings-btn {
+    background-color: var(--tertiary);
+}
+
+.lightmode .settings-btn:hover {
+    background-color: var(--tab-hover-bg);
+}
