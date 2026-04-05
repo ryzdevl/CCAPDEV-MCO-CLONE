@@ -659,7 +659,7 @@ webapp.post('/api/users/:userId/profile-pic', uploadProfilePic.single('profilePi
         }
         
         // const profilePicPath = `/uploads/profiles/${req.file.filename}`;\
-        const profilePicPath = req.file.path,
+        const profilePicPath = req.file.path
         
         const updatedUser = await User.findByIdAndUpdate(
             userId,
