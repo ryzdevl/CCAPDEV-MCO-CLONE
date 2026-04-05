@@ -325,24 +325,38 @@ $(document).ready(function() {
             }
             
             const currentContent = $post.find('.post-text').text();
-            const currentImages = [];
+            const currentAttachments = [];
 
             $post.find('.post-attachment').each(function() {
                 const src = $(this).attr('src') || $(this).data('src');
-                if (src) currentImages.push(src);
-            });
+                if (src) currentAttachments.push({ src: src, type: 'image' });
+                });
+        
+                $post.find('.post-video').each(function() {
+                    const src = $(this).attr('src') || $(this).data('src');
+                    if (src) currentAttachments.push({ src: src, type: 'video' });
+                });
 
             $('#edit-post-content').val(currentContent);
             $('#edit-attachments-preview').empty();
 
-            currentImages.forEach(function(src) {
+        currentAttachments.forEach(function(att) {
+            if (att.type === 'video') {
                 $('#edit-attachments-preview').append(`
-                    <div class="edit-img-item" data-src="${src}">
-                        <img src="${src}" style="width:60px; height:60px; object-fit:cover; border-radius:6px;">
-                        <button class="remove-edit-img" data-src="${src}">✕</button>
+                    <div class="edit-img-item" data-src="${att.src}">
+                        <video src="${att.src}" style="width:60px; height:60px; object-fit:cover; border-radius:6px;" muted></video>
+                        <button class="remove-edit-img" data-src="${att.src}">✕</button>
                     </div>
                 `);
-            });
+            } else {
+                $('#edit-attachments-preview').append(`
+                    <div class="edit-img-item" data-src="${att.src}">
+                        <img src="${att.src}" style="width:60px; height:60px; object-fit:cover; border-radius:6px;">
+                        <button class="remove-edit-img" data-src="${att.src}">✕</button>
+                    </div>
+                `);
+            }
+        });
 
             $('#edit-post-modal').data('postId', postId).css('display', 'flex');
         });
