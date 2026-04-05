@@ -31,6 +31,8 @@ const TLPostLayout = {
         const isHighlighted = post.highlighted || false;
         const postActions = this.renderPostActions(post); 
         const editedLabel = this.renderEditedLabel(post);  
+        const isLiked = (post.likedBy || []).some(id => id?.toString() === window.currentUser?._id?.toString());
+        const isDisliked = (post.dislikedBy || []).some(id => id?.toString() === window.currentUser?._id?.toString());
 
         const postDate = post.createdAt 
         ? new Date(post.createdAt).toLocaleDateString('en-GB').replaceAll('/', ' | ')
@@ -52,6 +54,8 @@ const TLPostLayout = {
             .replace(/{{attachments}}/g, attached)
             .replace(/{{sharedLabel}}/g, sharedLabel)
             .replace(/{{embeddedPost}}/g, embeddedPost)
+            .replace(/{{isLiked}}/g, isLiked ? 'checked' : '')
+            .replace(/{{isDisliked}}/g, isDisliked ? 'checked' : '')
             .replace(/{{isShared}}/g, post.isShared || false)
             .replace(/{{isHighlighted}}/g, isHighlighted ? 'checked' : '')
             .replace(/{{postActions}}/g, postActions)      
