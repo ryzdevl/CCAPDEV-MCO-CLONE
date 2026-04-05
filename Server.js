@@ -97,6 +97,13 @@ webapp.get('/api/posts', requireAuth, async (req, res) => {
             })
             .sort({ createdAt: -1 });
         res.json({ success: true, data: posts });
+        
+        const filteredPosts = posts.filter(post => {
+            if (post.isShared && !post.originalPost) return false;
+            return true;
+        });
+        res.json({ success: true, data: filteredPosts });
+        
     } catch (error) {
         res.status(500).json({ success: false, error: error.message});
     }
@@ -252,6 +259,15 @@ webapp.delete('/api/posts/:id', requireAuth, async (req, res) => {
         //         if (fs.existsSync(fullPath)) fs.unlinkSync(fullPath);
         //     });
         // }
+
+        const sharedPosts = await Post.find({ originalPost: post._id });
+        for (const sharedPost of sharedPosts) {
+            // Remove from each sharer's posts array
+            await User.findByIdAndUpdate(sharedPost.user, {
+                $pull: { posts: sharedPost._id }
+            });
+            await Post.findByIdAndDelete(sharedPost._id);
+        }
         
         await Post.findByIdAndDelete(postId);
         
@@ -596,6 +612,14 @@ webapp.get('/api/users/:id', async (req, res) => {
             options: { sort: { createdAt: -1 } }
         });
         res.json({ success: true, data: user });
+
+        if (user.posts) {
+            user.posts = user.posts.filter(post => {
+                if (post.isShared && !post.originalPost) return false;
+                return true;
+            });
+        }
+        
     } catch (error) {
         res.status(500).json({ success: false, error: error.message });
     }
