@@ -31,7 +31,18 @@ function requireAuth(req, res, next) {
 // serve uploaded files from uploads folder
 webapp.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-mongoose.connect('mongodb://127.0.0.1:27017/inkling');
+mongoose.connect(process.env.MONGO_URI)
+.then(() => {
+    console.log("MongoDB connected");
+
+    webapp.listen(process.env.PORT || 6767, () => {
+        console.log("Server running");
+    });
+
+})
+.catch(err => {
+    console.error("MongoDB connection failed:", err);
+});
 
 db.once('open',() => {
     console.log("MongoDB connection successful")
@@ -1157,14 +1168,23 @@ webapp.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'View', 'Home-Page.html'));
 });
 
+webapp.get(/\.html$/, (req, res) => {
+    const filePath = path.join(__dirname, 'View', req.path);
+    console.log('Requested path:', req.path);
+    console.log('Looking for file at:', filePath);
+    console.log('File exists:', fs.existsSync(filePath));
+    
+    if (fs.existsSync(filePath)) {
+        res.sendFile(filePath);
+    } else {
+        res.status(404).send('<h1>Error 404: Resource not found.</h1>');
+    }
+});
+
 // 404 handler
 webapp.use((req, res) => {
     res.status(404);
     res.send('<h1>Error 404: Resource not found.</h1>');
-});
-
-webapp.listen(port, () => {
-    console.log("App listening on port " + port);
 });
 
 // https://www.w3schools.com/nodejs/nodejs_filesystem.asp
