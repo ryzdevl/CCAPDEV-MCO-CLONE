@@ -3,7 +3,6 @@
 <head>
     <title>User Gallery</title>
     <link rel="stylesheet" href="UserGallery.css">
-    <link rel="stylesheet" href="stylesheet.css">
     <link href='https://fonts.googleapis.com/css?family=Figtree:400,300,700' rel='stylesheet' type='text/css'> 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
@@ -11,14 +10,13 @@
 <div class="containergallery">
     <h2 class="galleryheader">User Gallery</h2>
 
-    <div class="gallerycard">
+   <div class="gallerycard">
         <div class="row">
             <img id="gallery-img" src="../assets/defaultuser.png" alt="Profile Picture" class="imagegallery"/>
             <div class="gallerytext">
-                <div class="galleryhead" id="gallery-dn"><h2>User</h2></div>
-                <div class="galleryhead" id="gallery-un"><h4>@username</h4></div>
-                <div class="galleryhead" id="gallery-bio"><h4>This is my user bio!!!!</h4></div>
-                <div class="galleryhead" id="gallery-tags"><h4>#NewUser</h4></div>
+                <div class="galleryhead" id="gallery-dn">User</div>
+                <div class="galleryhead" id="gallery-un">@username</div>
+                <div class="galleryhead" id="gallery-bio">This is my user bio!!!!</div>
             </div> 
         </div>
     </div>
@@ -51,7 +49,7 @@
         </div>
     </div>
 </div>
-
-<script src="UserGallery.js"></script>
+    <script src="utils.js"></script>
+    <script src="UserGallery.js"></script>
 </body>
 </html>

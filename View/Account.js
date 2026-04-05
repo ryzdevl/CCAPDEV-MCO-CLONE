@@ -1,4 +1,5 @@
-// This is for account registration and login
+// for testing
+console.log("Account.js loaded - login function ready");
 
 // ===== REGISTER FUNCTION =====
 function register(event) {
@@ -33,8 +34,7 @@ function register(event) {
     .then(data => {
         if (data.success) {
             alert("Account created successfully! Please login.");
-            // Redirect to login page
-            window.location.href = "/Login-Page.html";
+            window.location.href = "Login-Page.html";
         } else {
             alert("Error: " + data.error);
         }
@@ -49,16 +49,16 @@ function register(event) {
 function login(event) {
     event.preventDefault();
     
-    // Get form values
-    const username = document.querySelector('input[placeholder="Username"]').value;
-    const password = document.querySelector('input[type="password"]').value;
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+    
+    console.log("Username entered:", username);
     
     if (!username || !password) {
         alert("Please enter username and password!");
         return;
     }
     
-    // Send to server
     fetch('/api/users/login', {
         method: 'POST',
         headers: {
@@ -69,36 +69,56 @@ function login(event) {
             password: password
         })
     })
-    .then(response => response.json())
+    .then(response => {
+        console.log("Response status:", response.status);
+        return response.json();
+    })
     .then(data => {
+        console.log("Login response data:", data);
         if (data.success) {
-            // Save user data to session/local storage
-            localStorage.setItem('currentUser', JSON.stringify(data.data));
-            
+            console.log("Login successful, redirecting...");
             alert("Login successful!");
-            // Redirect to home page or user page
-            window.location.href = "/UserPage.html";
+            window.location.href = "UserPage.html";
         } else {
+            console.log("Login failed:", data.error);
             alert("Error: " + data.error);
         }
     })
     .catch(error => {
-        console.error('Error:', error);
+        console.error('Fetch error:', error);
         alert("Login failed. Please try again.");
     });
 }
 
 // ===== CHECK IF USER IS LOGGED IN =====
-function getCurrentUser() {
-    const userStr = localStorage.getItem('currentUser');
-    if (userStr) {
-        return JSON.parse(userStr);
-    }
-    return null;
+// This now checks with server instead of localStorage
+function getCurrentUser(callback) {
+    fetch('/api/me', {
+        method: 'GET',
+        credentials: 'include'  // sends cookies
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            window.currentUser = data.data;
+            if (callback) callback();
+        } else {
+            window.location.href = "Login-Page.html";
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        window.location.href = "Login-Page.html";
+    });
 }
 
 // ===== LOGOUT =====
 function logoutUser() {
-    localStorage.removeItem('currentUser');
-    window.location.href = "/Home-Page.html";
+    fetch('/api/users/logout', {
+        method: 'POST',
+        credentials: 'include'
+    })
+    .then(() => {
+        window.location.href = "Home-Page.html";
+    });
 }

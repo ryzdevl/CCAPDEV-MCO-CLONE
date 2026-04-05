@@ -18,7 +18,7 @@ function openThreadModal(postId, originalPost) {
     }
     
     loadThreadReplies(postId);
-    $('#thread-modal').fadeIn(200);
+    $('#thread-modal').css('display', 'flex').hide().fadeIn(200);
 }
 
 function loadThreadReplies(postId) {

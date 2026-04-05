@@ -182,7 +182,7 @@ body {
 .addbtn:hover {
   background: var(--tertiary);
   transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(56, 189, 248, 0.3);
+  box-shadow: 0 5px 15px var(--tertiary);
 }
 
 /* Photo buttons - match .btn exactly */
@@ -282,4 +282,23 @@ body {
 
 .remove-link:hover {
     background: #666 !important;  /* Darker on hover */
+}
+
+body::-webkit-scrollbar {
+    width: 8px;
+}
+
+body::-webkit-scrollbar-track {
+    background: var(--secondary);
+    border-radius: 10px;
+}
+
+body::-webkit-scrollbar-thumb {
+    background: var(--tertiary);
+    border-radius: 10px;
+    border: 2px solid var(--main);
+}
+
+body::-webkit-scrollbar-thumb:hover {
+    background: var(--tertiary);
 }

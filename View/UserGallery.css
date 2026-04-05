@@ -50,21 +50,24 @@
     font-family: 'Figtree', sans-serif;
 }
 
-.gallerytext h2, 
-.gallerytext h4 {
-    font-family: 'Figtree', sans-serif;
+#gallery-dn {
+    font-size: 1.8em;
+    font-weight: 700;
     margin: 5px 0;
     color: var(--tertiary);
 }
 
-.gallerytext h2 {
-    font-size: 1.8em;
-    font-weight: 700;
-}
-
-.gallerytext h4 {
+#gallery-un,
+#gallery-bio,
+#gallery-tags {
     font-size: 1.1em;
     font-weight: 400;
+    color: var(--tertiary);
+}
+
+#gallery-un{
+    font-style: italic;
+    margin-bottom: 10px;
 }
 
 .galleryimg {
@@ -84,11 +87,6 @@
 }
 
 .gallery-item:hover {
-    background: var(--main);
-    padding: 10px;
-    border-radius: 8px;
-    text-align: center;
-    border: 2px solid var(--posts);
     transform: translateY(-4px) scale(1.005);
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25);
     z-index: 10;
@@ -178,6 +176,7 @@
     cursor: default;
     max-height: 95vh;     
     overflow-y: auto;     
+    overflow-x: hidden;
     padding: 20px;        
 }
 
@@ -220,7 +219,7 @@
 }
 
 #lightbox-delete-btn {
-    background: rgb(255, 80, 80);
+    background: var(--tertiary);
     color: white;
     border: none;
     border-radius: 6px;
@@ -232,7 +231,7 @@
 }
 
 #lightbox-delete-btn:hover {
-    background: rgb(200, 40, 40);
+    background: var(--tertiary);
 }
 
 #lightbox-confirm-delete {
@@ -248,7 +247,7 @@
 }
 
 #confirm-yes {
-    background: rgb(255, 80, 80);
+    background: var(--accent);
     color: white;
     border: none;
     border-radius: 6px;
@@ -259,7 +258,7 @@
 }
 
 #confirm-no {
-    background: rgb(100, 100, 100);
+    background: var(--tertiary);
     color: white;
     border: none;
     border-radius: 6px;
@@ -268,8 +267,8 @@
     font-family: 'Figtree', sans-serif;
 }
 
-#confirm-yes:hover { background: rgb(200, 40, 40); }
-#confirm-no:hover { background: rgb(70, 70, 70); }
+#confirm-yes:hover { background: var(--tertiary); }
+#confirm-no:hover { background: var(--accent); }
 
 #upload-form {
     margin-top: 15px;
@@ -311,3 +310,49 @@
 
 #confirmUpload:hover { background-color: var(--tertiary); }
 #cancelUpload:hover { background-color: darkgray; }
+
+/* ===== SCROLLBARS ===== */
+.galleryimg::-webkit-scrollbar,
+.containergallery::-webkit-scrollbar,
+#lightbox-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.galleryimg::-webkit-scrollbar-track,
+.containergallery::-webkit-scrollbar-track {
+    background: var(--secondary);
+    border-radius: 10px;
+}
+
+.galleryimg::-webkit-scrollbar-thumb,
+.containergallery::-webkit-scrollbar-thumb,
+#lightbox-content::-webkit-scrollbar-thumb {
+    background: var(--tertiary);
+    border-radius: 10px;
+    border: 2px solid var(--main);
+}
+
+.galleryimg::-webkit-scrollbar-thumb:hover,
+.containergallery::-webkit-scrollbar-thumb:hover,
+#lightbox-content::-webkit-scrollbar-thumb:hover {
+    background: var(--tertiary);
+}
+
+body::-webkit-scrollbar {
+    width: 8px;
+}
+
+body::-webkit-scrollbar-track {
+    background: var(--secondary);
+    border-radius: 10px;
+}
+
+body::-webkit-scrollbar-thumb {
+    background: var(--tertiary);
+    border-radius: 10px;
+    border: 2px solid var(--main);
+}
+
+body::-webkit-scrollbar-thumb:hover {
+    background: var(--tertiary);
+}

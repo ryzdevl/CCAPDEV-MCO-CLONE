@@ -32,15 +32,16 @@
 .post:hover {
     border-color: var(--tertiary);
     transform: translateY(-2px);
-    transition: transform 0.25s ease-out;
+    transition: transform 0.250s ease-out;
 }
 
 .post-pfp {
-    height: 60px;
-    width: 60px;
+    height: 70px;
+    width: 70px;
     border-radius: 8px;
     flex-shrink: 0;
     object-fit: cover;
+    cursor: pointer;
 }
 
 .post-content {
@@ -57,6 +58,7 @@
     gap: 8px;
     padding-left: 20px;
     color: var(--posts);
+    cursor: pointer;
 }
 
 .post-displayname {
@@ -67,6 +69,21 @@
 .post-username {
     font-size: 0.85rem;
     color: var(--tertiary);
+}
+
+.post-pfp:hover {
+    opacity: 70%;
+}
+
+.post-displayname:hover {
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--accent);
+}
+
+.post-username:hover {
+    font-size: 0.85rem;
+    color: var(--accent);
 }
 
 .post-body {
@@ -90,9 +107,9 @@
     flex-direction: row;
     flex-wrap: wrap;
     gap: 25px;
-    margin-top: 15px;
+    margin-top: 5px;
     margin-left: 20px;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
 }
 
 .action-item {
@@ -160,8 +177,8 @@
 
 /* ===== ATTACHMENT GRID STYLES ===== */
 .attachments-container {
-    width: 100%;
-    margin-top: 10px;
+    width: 90%;
+    margin: 10px 0px 10px 20px;
 }
 
 .attachment-grid {
@@ -260,7 +277,7 @@
 .shared-label {
     font-size: 0.85rem;
     color: var(--accent, #a78bfa);
-    margin: 4px 0 4px 20px;
+    margin: 4px 0px 0px 20px;
     font-weight: 500;
 }
 
@@ -269,7 +286,7 @@
     border: 1px solid var(--secondary);
     border-radius: 10px;
     padding: 12px;
-    margin: 10px 0 8px 20px;
+    margin: 10px 0px 0px 20px;
     background: rgba(255, 255, 255, 0.03);
     width: calc(100% - 40px);
     box-sizing: border-box;
@@ -316,6 +333,7 @@
 .embedded-content {
     font-size: 0.9rem;
     margin: 6px 0;
+    padding-left: 45px;
     color: var(--posts);
     line-height: 1.4;
 }

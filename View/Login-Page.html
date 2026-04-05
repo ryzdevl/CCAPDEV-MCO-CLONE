@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="stylesheet.css">
     <link rel="stylesheet" href="login-design.css">
     <script type="text/javascript" src="themeswitch.js" defer></script>
-    <script src="/Account.js" defer></script>
+    <script src="Account.js"></script>
 </head>
 
 <body>
@@ -19,14 +19,14 @@
     <img src="../assets/login-logo-darkmode.png" alt="Inkling" class="logo-img" id="logo-dark">
         
     <div class="container">
-        <form onsubmit="login(event)" method="post">
-            <input type="text" placeholder="Username" class="input-box">
-            <br><br>
-            <input type="password" placeholder="Password" class="input-box">
-            <p>Don't have an account? <a href="Create Account Page.html">Sign Up</a></p>
-            <br><br>
-            <button type="submit" class="btn">Login</button>
-        </form>
+       <form onsubmit="login(event)" method="post">
+        <input type="text" id="username" placeholder="Username" class="input-box">
+        <br><br>
+        <input type="password" id="password" placeholder="Password" class="input-box">
+        <p>Don't have an account? <a href="Create Account Page.html">Sign Up</a></p>
+        <br><br>
+        <button type="submit" class="btn">Login</button>
+    </form>
         <a href="Home-Page.html" class="btn temp-btn">Temporary</a>
     </div>    
 

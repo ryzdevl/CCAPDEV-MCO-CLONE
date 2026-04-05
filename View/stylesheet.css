@@ -35,37 +35,67 @@ body{
 
 
 #theme-switch {
-    height:50px;
+    height: 50px;
     width: 50px;
-    padding: 0;
+    padding: 0px;
     border: none;
     border-radius: 30px;
-    background: var(--secondary);
+    background: rgba(130, 72, 130, 0.8);
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: center;
-    position:fixed;
+    position: absolute;
     top: 10px;
     right: 20px;
     cursor: pointer;
+    transition: width 0.7s;
+    overflow: hidden;
+}
+
+#theme-switch:hover {
+    width: 160px;
+}
+
+#theme-switch svg {
+    fill: var(--main);
+    flex-shrink: 0;
+    min-width: 50px; /* icon always takes up 50px = same as collapsed button */
+    display: block;
+}
+
+#theme-switch .themeswitch-text {
+    opacity: 0;
+    max-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    transition: opacity 0.5s, max-width 0.5s;
+    color: var(--main);
+    font-family: 'Figtree';
+    font-weight: 600;
+}
+
+#theme-switch:hover .themeswitch-text {
+    opacity: 1;
+    max-width: 150px;
+    padding-left: 0px;
 }
 
 #theme-switch svg{
     fill: var(--main);
+    flex-shrink: 0;
 }
 
-#theme-switch svg:last-child{
+#theme-switch svg:last-of-type {
     display: none;
 }
 
-.lightmode #theme-switch svg:first-child{
+.lightmode #theme-switch svg:first-of-type {
     display: none;
 }
 
-.lightmode #theme-switch svg:last-child{
+.lightmode #theme-switch svg:last-of-type {
     display: block;
 }
-
 
 .tag a {
     color: var(--main); /*ensures the links inside tags stay dark*/

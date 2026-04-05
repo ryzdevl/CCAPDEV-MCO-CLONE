@@ -7,43 +7,41 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background: transparent;
+    background: var(--main);
 }
 
 .post-container {
     background: var(--main);
-    padding: 15px 20px;  /* Reduced vertical padding */
+    padding: 15px 20px;  
     border-radius: 12px;
-    width: 480px;  /* Slightly smaller */
-    max-width: 480px;
+    width: 700px;  
     box-sizing: border-box;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
     margin: 10px;
 }
 
 .post-container h2 {
-    font-size: 18px;  /* Smaller font */
+    font-size: 20px;
     font-weight: bold;
     color: var(--posts);
     margin-top: 0;
-    margin-bottom: 10px;  /* Reduced margin */
-    padding-bottom: 8px;  /* Reduced padding */
+    margin-bottom: 10px;
+    padding-bottom: 8px;
     border-bottom: 2px solid var(--secondary);
 }
 
 #postMessage {
     width: 100%;
-    padding: 10px;  /* Smaller padding */
-    resize: none;  /* Disable resize to control height */
-    min-height: 80px;  /* Smaller min-height */
-    max-height: 120px;  /* Smaller max height */
+    padding: 10px;
+    resize: none;
+    min-height: 80px;
+    max-height: 300px;
     color: var(--posts);
-    font-size: 14px;
+    font-size: 16px;
     border-radius: 8px;
     border: 2px solid var(--secondary);
     background-color: var(--main);
     box-sizing: border-box;
-    margin-bottom: 10px;  /* Reduced margin */
+    margin-bottom: 10px;
     font-family: inherit;
 }
 
@@ -56,13 +54,13 @@ body {
     display: flex;
     justify-content: flex-end;
     gap: 8px;
-    margin-top: 0;  /* Remove top margin */
+    margin-top: 0;
     margin-bottom: 5px;
 }
 
 .postButton, .clearButton, .insertButton {
-    width: 85px;  /* Slightly smaller */
-    height: 32px;  /* Smaller height */
+    width: 85px;
+    height: 32px;
     border: none;
     color: var(--posts);
     display: inline-flex;
@@ -82,14 +80,13 @@ body {
 }
 
 .insertButton {
-    width: 110px;  /* Adjusted */
+    width: 110px;
 }
 
-/* File attachment preview */
 #attachment-preview {
     display: none;
-    margin: 8px 0 10px 0;  /* Reduced margins */
-    padding: 8px;  /* Smaller padding */
+    margin: 8px 0 10px 0;
+    padding: 8px;
     border: 1px solid var(--secondary);
     border-radius: 8px;
     text-align: center;
@@ -98,7 +95,7 @@ body {
 
 #preview-img {
     max-width: 100%;
-    max-height: 100px;  /* Even smaller preview */
+    max-height: 100px;
     border-radius: 6px;
     object-fit: cover;
 }
@@ -110,7 +107,6 @@ body {
     word-break: break-all;
 }
 
-/* Multiple files indicator */
 .multi-file-indicator {
     display: flex;
     flex-wrap: wrap;
@@ -131,7 +127,6 @@ body {
     white-space: nowrap;
 }
 
-/* Close button */
 .close-profile-modal {
     position: absolute;
     top: -12px;
