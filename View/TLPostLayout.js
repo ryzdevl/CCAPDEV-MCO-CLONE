@@ -62,7 +62,11 @@ const TLPostLayout = {
         if (!attachments || attachments.length === 0) return '';
 
         const images = attachments.filter(att => att.mimetype && att.mimetype.startsWith('image/'));
-        const files = attachments.filter(att => !att.mimetype || !att.mimetype.startsWith('image/'));
+        const videos = attachments.filter(att => att.mimetype && att.mimetype.startsWith('video/'));
+        const files = attachments.filter(att => 
+            !att.mimetype || 
+            (!att.mimetype.startsWith('image/') && !att.mimetype.startsWith('video/'))
+        );
 
         let html = '';
 
@@ -88,6 +92,21 @@ const TLPostLayout = {
             html += `</div>`;
         }
 
+        videos.forEach(att => {
+        const src = att.path.trim();
+        html += `
+            <div class="video-attachment">
+                <video 
+                    src="${src}" 
+                    class="post-video"
+                    data-src="${src}"
+                    controls
+                    style="width:90%; max-height:400px; border-radius:10px; margin-top:8px;">
+                </video>
+            </div>
+        `;
+    });
+
         files.forEach(att => {
             html += `<p class="file-attachment">📎 <a href="${att.path.trim()}" target="_blank">${att.filename || 'Attachment'}</a></p>`;
         });
@@ -97,6 +116,7 @@ const TLPostLayout = {
 
   
     renderPostActions: function(post) {
+        if (post.isShared) return '';
         const isUserPage = window.location.pathname.includes('UserPage');
         // ATTEMPTED FIX FHSAJFHSDJHJSDF rn u cant edit/delete posts sa main timeline T^T
         const isTimeline = window.location.pathname.includes('main timeline');
