@@ -18,6 +18,7 @@ const { CloudinaryStorage } = require('multer-storage-cloudinary');
 
 // these two lines will open everything in the View and assets folders
 webapp.use(express.static(path.join(__dirname, 'View')));
+webapp.use('/Controller', express.static(path.join(__dirname, 'Controller')));
 webapp.use('/assets', express.static(path.join(__dirname, 'assets')));
 webapp.use(cookieParser());
 
