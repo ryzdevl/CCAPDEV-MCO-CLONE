@@ -54,16 +54,35 @@ db.once('open',() => {
 webapp.use(express.json());
 webapp.use(express.urlencoded({ extended: true}));
 
-// FOR SAVING DATA:
-/// File upload setup
-const storage = multer.diskStorage({
-    destination: 'uploads/',
-    filename: (req, file, cb) => {
-        cb(null, Date.now() + '-' + file.originalname);
+// // FOR SAVING DATA:
+// /// File upload setup
+// const storage = multer.diskStorage({
+//     destination: 'uploads/',
+//     filename: (req, file, cb) => {
+//         cb(null, Date.now() + '-' + file.originalname);
+//     }
+// });
+
+const cloudinaryStorage = new CloudinaryStorage({
+    cloudinary: cloudinary,
+    params: async (req, file) => {
+        let folder = 'inkling/posts';
+        if (req.path.includes('profile-pic')) folder = 'inkling/profiles';
+        if (req.path.includes('cover-pic')) folder = 'inkling/covers';
+        if (req.path.includes('gallery-pic')) folder = 'inkling/gallery';
+        return {
+            folder: folder,
+            allowed_formats: ['jpg', 'jpeg', 'png', 'gif', 'webp', 'mp4', 'mov'],
+            resource_type: 'auto'
+        };
     }
 });
 
-const upload = multer({ storage }); // for file uploads 
+// const upload = multer({ storage }); // for file uploads 
+const upload = multer({ storage: cloudinaryStorage });
+const uploadProfilePic = multer({ storage: cloudinaryStorage });
+const uploadCoverPic = multer({ storage: cloudinaryStorage });
+const uploadGallery = multer({ storage: cloudinaryStorage });
 
 // API ROUTING
 
@@ -110,7 +129,8 @@ webapp.post('/api/posts', requireAuth, upload.array('attachments', 10), async (r
         if (req.files && req.files.length > 0) {
             postData.attachments = req.files.map(file => ({
                 filename: file.originalname,
-                path: `/uploads/${file.filename}`,
+                // path: `/uploads/${file.filename}`,
+                path: file.path,
                 size: file.size,
                 mimetype: file.mimetype
             }));
@@ -183,7 +203,8 @@ webapp.put('/api/posts/:id', requireAuth, upload.array('attachments', 5), async 
         if (req.files && req.files.length > 0) {
             const newAttachments = req.files.map(file => ({
                 filename: file.originalname,
-                path: `/uploads/${file.filename}`,
+                // path: `/uploads/${file.filename}`,
+                path: file.path,
                 size: file.size,
                 mimetype: file.mimetype
             }));
@@ -225,12 +246,12 @@ webapp.delete('/api/posts/:id', requireAuth, async (req, res) => {
         }
         
         // Delete attached files
-        if (post.attachments && post.attachments.length > 0) {
-            post.attachments.forEach(att => {
-                const fullPath = path.join(__dirname, att.path);
-                if (fs.existsSync(fullPath)) fs.unlinkSync(fullPath);
-            });
-        }
+        // if (post.attachments && post.attachments.length > 0) {
+        //     post.attachments.forEach(att => {
+        //         const fullPath = path.join(__dirname, att.path);
+        //         if (fs.existsSync(fullPath)) fs.unlinkSync(fullPath);
+        //     });
+        // }
         
         await Post.findByIdAndDelete(postId);
         
@@ -398,7 +419,8 @@ webapp.post('/api/posts/:postId/reply', requireAuth, upload.array('attachments',
         if (req.files && req.files.length > 0) {
             postData.attachments = req.files.map(file => ({
                 filename: file.originalname,
-                path: `/uploads/${file.filename}`,
+                // path: `/uploads/${file.filename}`,
+                path: file.path,
                 size: file.size,
                 mimetype: file.mimetype
             }));
@@ -613,20 +635,20 @@ webapp.put('/api/users/:userId', async (req, res) => {
     }
 });
 
-// UPLOAD profile picture
-const profilePicStorage = multer.diskStorage({
-    destination: 'uploads/profiles/',
-    filename: (req, file, cb) => {
-        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-        const ext = path.extname(file.originalname);
-        cb(null, 'profile-' + uniqueSuffix + ext);
-    }
-});
+// // UPLOAD profile picture
+// const profilePicStorage = multer.diskStorage({
+//     destination: 'uploads/profiles/',
+//     filename: (req, file, cb) => {
+//         const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+//         const ext = path.extname(file.originalname);
+//         cb(null, 'profile-' + uniqueSuffix + ext);
+//     }
+// });
 
-const uploadProfilePic = multer({ 
-    storage: profilePicStorage,
-    limits: { fileSize: 5 * 1024 * 1024 } // 5MB limit
-});
+// const uploadProfilePic = multer({ 
+//     storage: profilePicStorage,
+//     limits: { fileSize: 5 * 1024 * 1024 } // 5MB limit
+// });
 
 webapp.post('/api/users/:userId/profile-pic', uploadProfilePic.single('profilePic'), async (req, res) => {
     try {
@@ -636,7 +658,8 @@ webapp.post('/api/users/:userId/profile-pic', uploadProfilePic.single('profilePi
             return res.status(400).json({ success: false, error: 'No file uploaded' });
         }
         
-        const profilePicPath = `/uploads/profiles/${req.file.filename}`;
+        // const profilePicPath = `/uploads/profiles/${req.file.filename}`;\
+        const profilePicPath = req.file.path,
         
         const updatedUser = await User.findByIdAndUpdate(
             userId,
@@ -656,18 +679,18 @@ webapp.post('/api/users/:userId/profile-pic', uploadProfilePic.single('profilePi
     }
 });
 
-// UPLOAD cover photo
-const uploadCoverPic = multer({ 
-    storage: multer.diskStorage({
-        destination: 'uploads/covers/',
-        filename: (req, file, cb) => {
-            const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-            const ext = path.extname(file.originalname);
-            cb(null, 'cover-' + uniqueSuffix + ext);
-        }
-    }),
-    limits: { fileSize: 5 * 1024 * 1024 }
-});
+// // UPLOAD cover photo
+// const uploadCoverPic = multer({ 
+//     storage: multer.diskStorage({
+//         destination: 'uploads/covers/',
+//         filename: (req, file, cb) => {
+//             const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+//             const ext = path.extname(file.originalname);
+//             cb(null, 'cover-' + uniqueSuffix + ext);
+//         }
+//     }),
+//     limits: { fileSize: 5 * 1024 * 1024 }
+// });
 
 webapp.post('/api/users/:userId/cover-pic', uploadCoverPic.single('coverPic'), async (req, res) => {
     try {
@@ -677,7 +700,8 @@ webapp.post('/api/users/:userId/cover-pic', uploadCoverPic.single('coverPic'), a
             return res.status(400).json({ success: false, error: 'No file uploaded' });
         }
         
-        const coverPicPath = `/uploads/covers/${req.file.filename}`;
+        // const coverPicPath = `/uploads/covers/${req.file.filename}`;
+        const coverPicPath = req.file.path;
         
         const updatedUser = await User.findByIdAndUpdate(
             userId,
@@ -697,26 +721,26 @@ webapp.post('/api/users/:userId/cover-pic', uploadCoverPic.single('coverPic'), a
     }
 });
 
-// ====== Gallery Storage Upload Update =======
-const galleryStorage = multer.diskStorage({
-    destination: 'uploads/gallery/',
-    filename: (req, file, cb) => {
-        cb(null, Date.now() + '-' + file.originalname);
-    }
-});
+// // ====== Gallery Storage Upload Update =======
+// const galleryStorage = multer.diskStorage({
+//     destination: 'uploads/gallery/',
+//     filename: (req, file, cb) => {
+//         cb(null, Date.now() + '-' + file.originalname);
+//     }
+// });
 
-const uploadGallery = multer({ 
-    storage: galleryStorage,
-    limits: { fileSize: 5 * 1024 * 1024 }, // 5MB max
-    fileFilter: (req, file, cb) => {
-        const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
-        if (allowedTypes.includes(file.mimetype)) {
-            cb(null, true);
-        } else {
-            cb(new Error('Only image files are allowed'));
-        }
-    }
-});
+// const uploadGallery = multer({ 
+//     storage: galleryStorage,
+//     limits: { fileSize: 5 * 1024 * 1024 }, // 5MB max
+//     fileFilter: (req, file, cb) => {
+//         const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
+//         if (allowedTypes.includes(file.mimetype)) {
+//             cb(null, true);
+//         } else {
+//             cb(new Error('Only image files are allowed'));
+//         }
+//     }
+// });
 
 // UPLOAD a gallery image
 webapp.post('/api/users/:id/gallery-pic', (req, res, next) => {
@@ -726,7 +750,8 @@ webapp.post('/api/users/:id/gallery-pic', (req, res, next) => {
     });
 }, async (req, res) => {
     try {
-        const filepath = `/uploads/gallery/${req.file.filename}`;
+        // const filepath = `/uploads/gallery/${req.file.filename}`;
+        const filepath = req.file.path;
         const title = req.body.title || 'Untitled';
 
         const user = await User.findByIdAndUpdate(
@@ -760,9 +785,12 @@ webapp.delete('/api/users/:id/gallery-pic', async (req, res) => {
     try {
         const { imgPath } = req.body;
 
-        if (!imgPath.startsWith('/uploads/')) {
-            return res.status(400).json({ success: false, error: 'Invalid file path' });
-        }
+        // if (!imgPath.startsWith('/uploads/')) {
+        //     return res.status(400).json({ success: false, error: 'Invalid file path' });
+        // }
+        if (!imgPath.startsWith('/uploads/') && !imgPath.startsWith('https://res.cloudinary.com')) {
+        return res.status(400).json({ success: false, error: 'Invalid file path' });
+    }
 
         const user = await User.findByIdAndUpdate(
             req.params.id,
@@ -771,8 +799,10 @@ webapp.delete('/api/users/:id/gallery-pic', async (req, res) => {
         );
 
         if (!user) return res.status(404).json({ success: false, error: 'User not found' });
-        const fullPath = path.join(__dirname, imgPath);
-        if (fs.existsSync(fullPath)) fs.unlinkSync(fullPath);
+        // const fullPath = path.join(__dirname, imgPath);
+        // if (fs.existsSync(fullPath)) fs.unlinkSync(fullPath);
+        const publicId = att.path.split('/').pop().split('.')[0];
+        await cloudinary.uploader.destroy(`inkling/posts/${publicId}`);
         
         res.json({ success: true });
 
