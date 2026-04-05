@@ -207,7 +207,7 @@ $(document).ready(function() {
             if (currentUser.coverPic) formData.coverPic = currentUser.coverPic;
             if (currentUser.profilePic) formData.profilePic = currentUser.profilePic;
             
-            if (currentTags.length > 0) formData.tags = currentTags;
+            formData.tags = currentTags;
             
             var contactLinks = [];
             var platforms = $('input[name="contact-platform[]"]');
@@ -221,7 +221,7 @@ $(document).ready(function() {
                 }
             }
             
-            if (contactLinks.length > 0) formData.contactLinks = contactLinks;
+            formData.contactLinks = contactLinks;
             
             $.ajax({
                 url: '/api/users/' + currentUser._id,
