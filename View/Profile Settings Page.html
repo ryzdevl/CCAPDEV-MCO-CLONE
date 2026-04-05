@@ -11,32 +11,6 @@
 
   <a href="Home-Page.html" class="btn back"> ⮜ Go back</a>
 
-  <!--disabled for now-->
-    <!-- <br>
-    <h3>Profile Visibility</h3>
-    <label class="custom-radio">
-      <input type="radio" name="visibility" checked>
-      <span class="radio-mark"></span>
-      Public
-    </label>
-    <br>
-    <label class="custom-radio">
-      <input type="radio" name="visibility">
-      <span class="radio-mark"></span>
-      Private
-    </label> -->
-
-  <!-- <div class="setting">
-    <h3>Verify Email</h3><br>
-    <a onclick="openPopup()" class="btn"> Send Verification Code</a>
-      <div id="popup" class="popup">
-      <div class="popup-content">
-        <h3>Verification Code has been sent!</h3><br>
-        <button class="btn" onclick="closePopup()">OK</button>
-      </div>
-    </div>
-  </div> -->
-
   <div class="setting">
     <h3>Change Password</h3><br>
     <a href=" Change Password Page.html" class="btn">Change your password</a>
@@ -49,28 +23,6 @@
       <span class="slider"></span>
     </label>
   </div>
-
-  <div >
-    <h3>Notify me when:</h3>
-      <label class="custom-checkbox"><input type="checkbox" id='settingsinteract'><span class="checkmark"></span>Someone interacts with my post</label><br>
-      <label class="custom-checkbox"><input type="checkbox" id='settingscomment'><span class="checkmark"></span>Someone comments under my post</label><br>
-  </div>
-
-  <!--
-  <div class="setting">
-    <h3>Theme</h3>
-    <label><input type="radio" name="theme"> Light ☼</label>
-    <label><input type="radio" name="theme" checked> Dark ☾</label>
-  </div>-->
-
-  <!--
-  <div class="setting">
-    <h3>Font Size</h3>
-    <label><input type="radio" name="fontsize"> Small</label>
-    <label><input type="radio" name="fontsize" checked> Medium</label>
-    <label><input type="radio" name="fontsize"> Large</label><br>
-    <p class="hint">Font size will look like this</p> 
-  </div> -->
 
   <div class="setting">
     <h3>Delete Account</h3><br>
@@ -95,6 +47,28 @@
 <script>
 function logoutMessage() {
   alert("Successfully logged out");
+}
+    
+const notifEnabled = localStorage.getItem('notificationsEnabled') !== 'false';
+document.querySelector('.switch input').checked = notifEnabled;
+
+document.querySelector('.switch input').addEventListener('change', function() {
+    localStorage.setItem('notificationsEnabled', this.checked);
+    alert(this.checked ? 'Notifications enabled!' : 'Notifications disabled!');
+});
+
+document.querySelectorAll('.custom-checkbox input').forEach((checkbox, index) => {
+    const key = `notifPref_${index}`;
+    checkbox.checked = localStorage.getItem(key) !== 'false';
+    checkbox.addEventListener('change', function() {
+        localStorage.setItem(key, this.checked);
+    });
+});
+
+function logoutMessage() {
+    localStorage.removeItem('currentUser');
+    alert('Successfully logged out');
+    window.location.href = '/Login-Page.html';
 }
 </script>
 </body>
