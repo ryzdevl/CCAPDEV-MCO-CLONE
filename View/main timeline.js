@@ -7,7 +7,7 @@ $(document).ready(function() {
         // for loading threads 
         function loadThreadModal() {
             $.ajax({
-                url: 'threadmodal.html',
+                url: 'ThreadModal.html',
                 method: 'GET',
                 success: function(html) {
                     $('body').append(html);
