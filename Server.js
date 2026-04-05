@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const path = require('path'); 
 const mongoose = require('mongoose');
@@ -12,6 +13,8 @@ const cookieParser = require('cookie-parser');
 const db = mongoose.connection;
 const webapp = express();
 const port = 6767;
+const cloudinary = require('cloudinary').v2;
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
 
 // these two lines will open everything in the View and assets folders
 webapp.use(express.static(path.join(__dirname, 'View')));
