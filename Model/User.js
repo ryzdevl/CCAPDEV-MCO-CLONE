@@ -18,14 +18,17 @@ const UserSchema = new mongoose.Schema({
         unique: true,
         lowercase: true
     },
-    // i have no idea how to hash this yet need help w password hashing here pls ty
     password: {
         type: String,
         required: true
     },
     profilePic: {
         type: String,
-        default: '/assets/defaultuser.png' // to be changed    
+        default: '/assets/defaultuser.png' 
+    },
+    coverPic: {
+        type: String,
+        default: '/assets/defaultcover.jpg'
     },
     bio: {
         type: String,
@@ -36,8 +39,8 @@ const UserSchema = new mongoose.Schema({
         default: Date.now
     },
     gallery: [{
-        path: { type: String },   // image file path
-        title: { type: String, default: 'Untitled' }  //  image title
+        path: { type: String },   
+        title: { type: String, default: 'Untitled' }  
     }],
     // stats!!!
     followers: [{
@@ -48,12 +51,11 @@ const UserSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     }],
-    // references to Post.js, needed for user posts n highlights
     posts: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Post'
     }]
-}, { timestamps: true }); // ✅ timestamps fixed here
+}, { timestamps: true }); 
 
 UserSchema.pre('save', async function (next) {
     if (!this.isModified('password')) return; // skip if password unchanged
