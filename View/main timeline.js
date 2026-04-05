@@ -1,9 +1,13 @@
 $(document).ready(function() {
+
+    let i = 0;
+    const oneweek = 7 * 24 * 60 * 60 * 1000;
+
     getCurrentUser(function() {   
         // for loading threads 
         function loadThreadModal() {
             $.ajax({
-                url: 'ThreadModal.html',
+                url: 'threadmodal.html',
                 method: 'GET',
                 success: function(html) {
                     $('body').append(html);
@@ -212,25 +216,106 @@ $(document).ready(function() {
         }
 
         function challengeOTD(){
-        document.getElementById('seeforum').addEventListener("click", () => {
-            const searchInput = document.getElementById("search-input");
-            searchInput.value = '#MiniChallenge';
+            document.getElementById('seeforum').addEventListener("click", () => {
+                const searchInput = document.getElementById("search-input");
+                searchInput.value = '#MiniChallenge';
 
-            // Directly trigger the search fetch instead of relying on the keydown event
-            fetch(`/api/search?q=${encodeURIComponent('#MiniChallenge')}`)
-                .then(r => r.json())
-                .then(result => {
-                    if (!result.success || result.data.posts.length === 0) {
-                        $('.feed').empty();
-                        $('.feed').append("<div class='no-results'>No posts found</div>");
-                        return;
-                    }
-                    displayPosts(result.data.posts);
-                })
-                .catch(err => console.error("Search error:", err));
-        });
+                // Directly trigger the search fetch instead of relying on the keydown event
+                fetch(`/api/search?q=${encodeURIComponent('#MiniChallenge')}`)
+                    .then(r => r.json())
+                    .then(result => {
+                        if (!result.success || result.data.posts.length === 0) {
+                            $('.feed').empty();
+                            $('.feed').append("<div class='no-results'>No posts found</div>");
+                            return;
+                        }
+                        displayPosts(result.data.posts);
+                    })
+                    .catch(err => console.error("Search error:", err));
+            }); 
+
+            var prompts = [ "Create something that reminds you of childhood.",
+                            "Create something that feels like a secret you kept as a kid.",
+                            "Create something based on a smell you loved when you were young.",
+                            "Create something that captures the sound of a summer afternoon.",
+                            "Create something inspired by a game you invented as a child.",
+                            "Create something that feels like a worn-out blanket or favorite piece of clothing.",
+                            "Create something based on a fear you had as a kid, seen through adult eyes.",
+                            "Create something inspired by a line from a children's book that stuck with you.",
+                            "Create something that looks the way a skinned knee or bruised elbow felt.",
+                            "Create something based on a dream you had before turning 10.",
+                            "Create something that tastes like a specific birthday cake from your past.",
+                            "Create something inspired by a hiding spot you used to love.",
+                            "Create something based on a playground rumor you believed.",
+                            "Create something that smells like rain on hot pavement in summer.",
+                            "Create something inspired by a lullaby or bedtime song.",
+                            "Create something that feels like a sleepover past midnight.",
+                            "Create something based on a word you mispronounced as a child.",
+                            "Create something that lives inside a closet or wardrobe.",
+                            "Create something inspired by an imaginary friend you had.",
+                            "Create something based on a lie you told as a kid.",
+                            "Create something that represents the best boring Sunday ever.",
+                            "Create something inspired by a relative you only saw occasionally.",
+                            "Create something based on the view from your childhood bedroom window.",
+                            "Create something inspired by a neighbor you were curious about.",
+                            "Create something based on a car trip from the back seat.",
+                            "Create something inspired by a hand-me-down object.",
+                            "Create something based on a school desk doodle.",
+                            "Create something inspired by a carnival or fair ride from a child's height.",
+                            "Create something based on a babysitter who let rules slide.",
+                            "Create something that reminds you of the night before a big event.",
+                            "Create something based on a melted popsicle on a hot day.",
+                            "Create something inspired by a handprint craft.",
+                            "Create something that feels like waiting for a friend to come outside and play.",
+                            "Create something based on a broken toy you couldn't throw away.",
+                            "Create something inspired by a nickname only your family used.",
+                            "Create something that sounds like a creaky staircase or screen door.",
+                            "Create something based on a chore you secretly enjoyed.",
+                            "Create something inspired by a puddle you couldn't resist jumping in.",
+                            "Create something that feels like the static between radio stations.",
+                            "Create something based on a TV show you watched reruns of every day.",
+                            "Create something inspired by a lunchbox or thermos you loved.",
+                            "Create something that tastes like a specific fruit from a neighbor's tree.",
+                            "Create something based on a coin you found and kept as a treasure.",
+                            "Create something inspired by a caterpillar, lightning bug, or other small creature.",
+                            "Create something that feels like the last swim of the summer.",
+                            "Create something based on a basement or attic you were curious about.",
+                            "Create something inspired by a magazine you read at the doctor's office.",
+                            "Create something that sounds like a neighborhood dog barking in the distance.",
+                            "Create something based on a handshake or clapping game you learned.",
+                            "Create something that feels like the moment just before being called in for dinner."
+                        ]
+
+            function getCurrentIndex() {
+                const lastUpdate = localStorage.getItem('lastUpdate');
+                const savedIndex = localStorage.getItem('promptIndex');
+                
+                if (lastUpdate && savedIndex) {
+                    const weeksPassed = Math.floor((Date.now() - parseInt(lastUpdate)) / oneweek); // 👈 fix here
+                    let newIndex = parseInt(savedIndex) + weeksPassed;
+                    if (newIndex >= prompts.length) newIndex = prompts.length - 1;
+                    return newIndex;
+                }
+                return 0;
+            }
+
+        function updateChallenge() {
+            if (i < prompts.length) {
+                document.getElementById('challenge-text').innerText = prompts[i];
+                localStorage.setItem('lastUpdate', Date.now().toString());
+                localStorage.setItem('promptIndex', i.toString());
+                i++;
+            }
+        }
+
+        i = getCurrentIndex();
+        updateChallenge();
+
+        setInterval(() => {
+            if (i < prompts.length) updateChallenge();
+        }, oneweek);
+
     }
-
 
         // Closing thread modal
         $(document).on('click', '.close-thread-modal', function() {
@@ -273,6 +358,12 @@ $(document).ready(function() {
         const newPost = document.querySelector(`#leaderboard-post-container .post`);
         if (newPost) {
             TLPostLayout.dootInteractions(newPost);
+        }
+
+        const postText = document.querySelector('#leaderboard-post-container .post-text');
+        const postBody = document.querySelector('#leaderboard-post-container .post-body');
+        if (postText && postBody && postText.textContent.trim() === '') {
+            postBody.style.paddingTop = '50px';
         }
     }
 });
