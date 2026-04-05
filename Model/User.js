@@ -42,6 +42,22 @@ const UserSchema = new mongoose.Schema({
         path: { type: String },   
         title: { type: String, default: 'Untitled' }  
     }],
+    tags: [{
+        type: String,
+        trim: true
+    }],
+    location: {
+        type: String,
+        default: ''
+    },
+    website: {
+        type: String,
+        default: ''
+    },
+    contactLinks: [{
+        platform: { type: String },
+        url: { type: String }
+    }],
     // stats!!!
     followers: [{
         type: mongoose.Schema.Types.ObjectId,
