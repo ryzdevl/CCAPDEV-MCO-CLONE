@@ -109,6 +109,77 @@ webapp.get('/api/posts', requireAuth, async (req, res) => {
     }
 });
 
+// CHANGE PASSWORD
+webapp.put('/api/users/:userId/change-password', async (req, res) => {
+    try {
+        const { currentPassword, newPassword } = req.body;
+        const user = await User.findById(req.params.userId);
+
+        if (!user) {
+            return res.status(404).json({ success: false, error: 'User not found' });
+        }
+
+        // Verify current password
+        const isMatch = await user.comparePassword(currentPassword);
+        if (!isMatch) {
+            return res.status(401).json({ success: false, error: 'Current password is incorrect' });
+        }
+
+        // Update password
+        user.password = newPassword;
+        await user.save();
+
+        res.json({ success: true, message: 'Password changed successfully' });
+
+    } catch (error) {
+        console.error('Change password error:', error);
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// DELETE ACCOUNT
+webapp.delete('/api/users/:userId/delete-account', async (req, res) => {
+    try {
+        const { password } = req.body;
+        const user = await User.findById(req.params.userId);
+
+        if (!user) {
+            return res.status(404).json({ success: false, error: 'User not found' });
+        }
+
+        // Verify password before deleting
+        const isMatch = await user.comparePassword(password);
+        if (!isMatch) {
+            return res.status(401).json({ success: false, error: 'Incorrect password' });
+        }
+
+        // Delete all user's posts
+        await Post.deleteMany({ user: req.params.userId });
+
+        // Remove user from followers/following of other users
+        await User.updateMany(
+            { followers: req.params.userId },
+            { $pull: { followers: req.params.userId } }
+        );
+        await User.updateMany(
+            { following: req.params.userId },
+            { $pull: { following: req.params.userId } }
+        );
+
+        // Delete the user
+        await User.findByIdAndDelete(req.params.userId);
+
+        // Clear cookie
+        res.clearCookie('userId');
+
+        res.json({ success: true, message: 'Account deleted successfully' });
+
+    } catch (error) {
+        console.error('Delete account error:', error);
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
 // CREATING posts
 /// NOTE: this supports 10 file uploads!
 webapp.post('/api/posts', requireAuth, upload.array('attachments', 10), async (req, res) => {
