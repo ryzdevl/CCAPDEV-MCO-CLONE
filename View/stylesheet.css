@@ -1,0 +1,135 @@
+@font-face {
+    font-family: 'Figtree';
+    src: url(../assets/Figtree-Regular.ttf);
+    font-weight: 400;
+    font-style: normal
+}
+
+@font-face {
+    font-family: 'Figtree';
+    src: url(../assets/Figtree-SemiBold.ttf);
+    font-weight: 600;
+    font-style: normal
+}
+
+
+:root {
+    --main: #22081F; /*bg and in tag text*/
+    --secondary: #824882;
+    --posts: #DECBDE; /*post texts*/
+    --accent: #E77664;
+    --tertiary: #D17FC7; /*big buttons and tags*/
+}   
+
+.lightmode{
+    --main: #F5D5F2;
+    --posts: #22081F;
+}
+
+body{
+    background-color: var(--main);
+    font-family: 'Figtree';
+}
+
+/*buttons and tags*/
+
+
+#theme-switch {
+    height: 50px;
+    width: 50px;
+    padding: 0px;
+    border: none;
+    border-radius: 30px;
+    background: rgba(130, 72, 130, 0.8);
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    cursor: pointer;
+    transition: width 0.7s;
+    overflow: hidden;
+}
+
+#theme-switch:hover {
+    width: 160px;
+}
+
+#theme-switch svg {
+    fill: var(--main);
+    flex-shrink: 0;
+    min-width: 50px; /* icon always takes up 50px = same as collapsed button */
+    display: block;
+}
+
+#theme-switch .themeswitch-text {
+    opacity: 0;
+    max-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    transition: opacity 0.5s, max-width 0.5s;
+    color: var(--main);
+    font-family: 'Figtree';
+    font-weight: 600;
+}
+
+#theme-switch:hover .themeswitch-text {
+    opacity: 1;
+    max-width: 150px;
+    padding-left: 0px;
+}
+
+#theme-switch svg{
+    fill: var(--main);
+    flex-shrink: 0;
+}
+
+#theme-switch svg:last-of-type {
+    display: none;
+}
+
+.lightmode #theme-switch svg:first-of-type {
+    display: none;
+}
+
+.lightmode #theme-switch svg:last-of-type {
+    display: block;
+}
+
+.tag a {
+    color: var(--main); /*ensures the links inside tags stay dark*/
+    text-decoration: none;
+}
+.tag a:hover {
+    color:  var(--main);
+    text-decoration: none;
+}
+
+.tag {
+    background-color: var(--tertiary);
+    border-radius: 38px;
+    border: none;
+    padding: 5px 10px;
+    display: flex;
+}
+
+.mainbtns {
+    background-color: #D17FC7;
+    border-radius: 38px;
+    border: none;
+    padding: 10px 30px;
+    display: flex;
+}
+
+#postbutton {
+    font-size: 20px;
+    padding: 10px 60px;
+}
+
+#postbutton img {
+    width: 27px;
+    height: 27px;
+    padding-right: 20px;
+}
+
