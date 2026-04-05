@@ -7,6 +7,8 @@ const Post = require('./Model/Post');
 const User = require('./Model/User');
 const Report = require('./Model/Report');
 const Contact = require('./Model/Contact');
+const Notification = require('./Model/Notification');
+const cookieParser = require('cookie-parser');
 const db = mongoose.connection;
 const webapp = express();
 const port = 6767;
@@ -14,22 +16,22 @@ const port = 6767;
 // these two lines will open everything in the View and assets folders
 webapp.use(express.static(path.join(__dirname, 'View')));
 webapp.use('/assets', express.static(path.join(__dirname, 'assets')));
+webapp.use(cookieParser());
+
+// helper for authentication n cookies
+function requireAuth(req, res, next) {
+    const userId = req.cookies.userId;
+    if (!userId) {
+        return res.status(401).json({ success: false, error: 'Not authenticated' });
+    }
+    req.userId = userId;
+    next();
+}
 
 // serve uploaded files from uploads folder
 webapp.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-mongoose.connect(process.env.MONGO_URI)
-.then(() => {
-    console.log("MongoDB connected");
-
-    webapp.listen(process.env.PORT || 3000, () => {
-        console.log("Server running");
-    });
-
-})
-.catch(err => {
-    console.error("MongoDB connection failed:", err);
-});
+mongoose.connect('mongodb://127.0.0.1:27017/inkling');
 
 db.once('open',() => {
     console.log("MongoDB connection successful")
@@ -52,7 +54,7 @@ const upload = multer({ storage }); // for file uploads
 // API ROUTING
 
 // GET posts (omg nscom reference)
-webapp.get('/api/posts', async (req, res) => {
+webapp.get('/api/posts', requireAuth, async (req, res) => {
     try {
         const posts = await Post.find()
             .populate('user')
@@ -69,7 +71,7 @@ webapp.get('/api/posts', async (req, res) => {
 
 // CREATING posts
 /// NOTE: this supports 10 file uploads!
-webapp.post('/api/posts', upload.array('attachments', 10), async (req, res) => {
+webapp.post('/api/posts', requireAuth, upload.array('attachments', 10), async (req, res) => {
     try {
         const { content, userId, parentPost } = req.body;
         
@@ -118,7 +120,7 @@ webapp.post('/api/posts', upload.array('attachments', 10), async (req, res) => {
 });
 
 // GET single post
-webapp.get('/api/posts/:id', async (req, res) => {
+webapp.get('/api/posts/:id', requireAuth, async (req, res) => {
     try {
         const post = await Post.findById(req.params.id).populate('user');
         if (!post) {
@@ -131,7 +133,7 @@ webapp.get('/api/posts/:id', async (req, res) => {
 });
 
 // UPDATE (EDIT) a post
-webapp.put('/api/posts/:id', upload.array('attachments', 5), async (req, res) => {
+webapp.put('/api/posts/:id', requireAuth, upload.array('attachments', 5), async (req, res) => {
     try {
         const { content, userId, keepAttachments } = req.body;
         const postId = req.params.id;
@@ -192,7 +194,7 @@ webapp.put('/api/posts/:id', upload.array('attachments', 5), async (req, res) =>
 });
 
 // DELETE a post
-webapp.delete('/api/posts/:id', async (req, res) => {
+webapp.delete('/api/posts/:id', requireAuth, async (req, res) => {
     try {
         const { userId } = req.body;
         const postId = req.params.id;
@@ -232,7 +234,7 @@ webapp.delete('/api/posts/:id', async (req, res) => {
 });
 
 // TOGGLE HIGHLIGHT STATUS (for user's own posts only)
-webapp.post('/api/posts/:id/highlight', async (req, res) => {
+webapp.post('/api/posts/:id/highlight', requireAuth, async (req, res) => {
     try {
         const { userId } = req.body;
         const postId = req.params.id;
@@ -284,7 +286,7 @@ webapp.post('/api/posts/:id/highlight', async (req, res) => {
 });
 
 // GET HIGHLIGHTED POSTS for a specific user
-webapp.get('/api/users/:userId/highlights', async (req, res) => {
+webapp.get('/api/users/:userId/highlights', requireAuth, async (req, res) => {
     try {
         const userId = req.params.userId;
         
@@ -304,7 +306,7 @@ webapp.get('/api/users/:userId/highlights', async (req, res) => {
 });
 
 // SHARE A POST
-webapp.post('/api/posts/:id/share', async (req, res) => {
+webapp.post('/api/posts/:id/share', requireAuth, async (req, res) => {
     try {
         const { userId } = req.body;
         const originalPost = await Post.findById(req.params.id);
@@ -342,6 +344,7 @@ webapp.post('/api/posts/:id/share', async (req, res) => {
             $push: { posts: sharedPost._id }
         });
 
+        await createNotification(originalPost.user, userId, 'share', originalPost._id);
         res.status(201).json({ success: true, data: sharedPost });
 
     } catch (error) {
@@ -351,7 +354,7 @@ webapp.post('/api/posts/:id/share', async (req, res) => {
 });
 
 // POST a comment to a post (creates a new post but under the thread)
-webapp.post('/api/posts/:postId/reply', upload.array('attachments', 5), async (req, res) => {
+webapp.post('/api/posts/:postId/reply', requireAuth, upload.array('attachments', 5), async (req, res) => {
     try {
         const { userId, content } = req.body;
         const parentPostId = req.params.postId;
@@ -392,6 +395,7 @@ webapp.post('/api/posts/:postId/reply', upload.array('attachments', 5), async (r
         // Increment comment count on parent post
         parentPost.commentCount = (parentPost.commentCount || 0) + 1;
         await parentPost.save();
+        await createNotification(parentPost.user, userId, 'reply', parentPostId);
         
         const populatedPost = await Post.findById(newPost._id).populate('user', 'username displayName profilePic');
         
@@ -404,7 +408,7 @@ webapp.post('/api/posts/:postId/reply', upload.array('attachments', 5), async (r
 });
 
 // GET all replies for a post (comment thread)
-webapp.get('/api/posts/:postId/thread', async (req, res) => {
+webapp.get('/api/posts/:postId/thread', requireAuth, async (req, res) => {
     try {
         const replies = await Post.find({ 
             commentParent: req.params.postId,
@@ -419,6 +423,13 @@ webapp.get('/api/posts/:postId/thread', async (req, res) => {
         console.error('Error fetching thread:', error);
         res.status(500).json({ success: false, error: error.message });
     }
+});
+
+webapp.get('/api/top-post', async (req, res) => {
+    const topPost = await Post.findOne({ commentReply: false, isShared: false })
+        .sort({ 'updoots.up': -1 })
+        .populate('user', 'username displayName profilePic');
+    res.json({ success: true, data: topPost });
 });
 
 // ========== USER API ROUTES ==========
@@ -495,6 +506,13 @@ webapp.post('/api/users/login', async (req, res) => {
                 error: 'Invalid username or password' 
             });
         }
+
+        // Set cookie
+        res.cookie('userId', user._id.toString(), {
+            httpOnly: true,
+            maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+            sameSite: 'lax'
+        });
             
         res.json({ 
             success: true, 
@@ -503,12 +521,26 @@ webapp.post('/api/users/login', async (req, res) => {
                 username: user.username,
                 displayName: user.displayName,
                 email: user.email,
-                profilePic: user.profilePic
+                profilePic: user.profilePic,
+                following: user.following || [], 
+                followers: user.followers || []   
             }
         });
         
     } catch (error) {
         console.error("Login error:", error);
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+webapp.get('/api/me', requireAuth, async (req, res) => {
+    try {
+        const user = await User.findById(req.userId).select('-password');
+        if (!user) {
+            return res.status(404).json({ success: false, error: 'User not found' });
+        }
+        res.json({ success: true, data: user });
+    } catch (error) {
         res.status(500).json({ success: false, error: error.message });
     }
 });
@@ -880,7 +912,7 @@ webapp.get('/api/search', async (req, res) => {
 webapp.post('/api/users/:id/follow', async (req, res) => {
     try {
         const targetUserId = req.params.id;
-        const currentUserId = req.body.currentUserId;
+        const currentUserId = req.cookies.userId;
 
         if(targetUserId === currentUserId){
             return res.json({success:false, message:"You can't follow yourself"});
@@ -905,6 +937,10 @@ webapp.post('/api/users/:id/follow', async (req, res) => {
 
         await currentUser.save();
         await targetUser.save();
+
+        if (!alreadyFollowing) {
+            await createNotification(targetUserId, currentUserId, 'follow', null);
+        }
 
         res.json({
             success: true,
@@ -950,7 +986,7 @@ webapp.get('/api/users/:id/list/:type', async (req, res) => {
 });
 
 // POST interaction (updoot, downdoot, star, etc.)
-webapp.post('/api/posts/:postId/interact', async (req, res) => {
+webapp.post('/api/posts/:postId/interact', requireAuth, async (req, res) => {
     try {
         const postId = req.params.postId;
         const { type, userId, active } = req.body;
@@ -973,6 +1009,8 @@ webapp.post('/api/posts/:postId/interact', async (req, res) => {
                 if (active) {
                     post.likedBy.push(userId);
                     post.updoots.up = (post.updoots.up || 0) + 1;
+                    await createNotification(post.user, userId, 'like', postId);
+
                     if (post.dislikedBy.includes(userId)) {
                         post.dislikedBy.pull(userId);
                         post.updoots.down = Math.max((post.updoots.down || 0) - 1, 0);
@@ -988,6 +1026,7 @@ webapp.post('/api/posts/:postId/interact', async (req, res) => {
                 if (active) {
                     post.dislikedBy.push(userId);
                     post.updoots.down = (post.updoots.down || 0) + 1;
+                    await createNotification(post.user, userId, 'dislike', postId);
                     if (post.likedBy.includes(userId)) {
                         post.likedBy.pull(userId);
                         post.updoots.up = Math.max((post.updoots.up || 0) - 1, 0);
@@ -1012,22 +1051,110 @@ webapp.post('/api/posts/:postId/interact', async (req, res) => {
     }
 });
 
+webapp.post('/api/users/logout', (req, res) => {
+    res.clearCookie('userId');
+    res.json({ success: true });
+});
+
+// ========== NOTIFICATION API ROUTES ==========
+// Add this near the top with your other requires:
+// 
+
+async function createNotification(recipientId, senderId, type, postId = null) {
+    // Don't notify yourself
+    if (recipientId.toString() === senderId.toString()) return;
+    
+    // Avoid duplicate notifications (e.g. liking twice)
+    const existing = await Notification.findOne({
+        recipient: recipientId,
+        sender: senderId,
+        type,
+        post: postId
+    });
+    if (existing) return;
+ 
+    await Notification.create({
+        recipient: recipientId,
+        sender: senderId,
+        type,
+        post: postId
+    });
+}
+ 
+// GET notifications for logged-in user
+webapp.get('/api/notifications', requireAuth, async (req, res) => {
+    try {
+        const notifications = await Notification.find({ recipient: req.userId })
+            .populate('sender', 'username displayName profilePic')
+            .populate('post', 'content')
+            .sort({ createdAt: -1 })
+            .limit(50);
+ 
+        res.json({ success: true, data: notifications });
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+ 
+// GET unread notification count (for badge on bell icon)
+webapp.get('/api/notifications/unread-count', requireAuth, async (req, res) => {
+    try {
+        const count = await Notification.countDocuments({
+            recipient: req.userId,
+            read: false
+        });
+        res.json({ success: true, count });
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+ 
+// MARK all notifications as read
+webapp.put('/api/notifications/mark-read', requireAuth, async (req, res) => {
+    try {
+        await Notification.updateMany(
+            { recipient: req.userId, read: false },
+            { $set: { read: true } }
+        );
+        res.json({ success: true });
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+ 
+// MARK single notification as read
+webapp.put('/api/notifications/:id/read', requireAuth, async (req, res) => {
+    try {
+        await Notification.findByIdAndUpdate(req.params.id, { read: true });
+        res.json({ success: true });
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+ 
+// DELETE a notification
+webapp.delete('/api/notifications/:id', requireAuth, async (req, res) => {
+    try {
+        await Notification.findByIdAndDelete(req.params.id);
+        res.json({ success: true });
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+ 
+// CLEAR all notifications for user
+webapp.delete('/api/notifications', requireAuth, async (req, res) => {
+    try {
+        await Notification.deleteMany({ recipient: req.userId });
+        res.json({ success: true });
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
 // FOR GENERAL PAGE HANDLING 
 webapp.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'View', 'Home-Page.html'));
-});
-
-webapp.get(/\.html$/, (req, res) => {
-    const filePath = path.join(__dirname, 'View', req.path);
-    console.log('Requested path:', req.path);
-    console.log('Looking for file at:', filePath);
-    console.log('File exists:', fs.existsSync(filePath));
-    
-    if (fs.existsSync(filePath)) {
-        res.sendFile(filePath);
-    } else {
-        res.status(404).send('<h1>Error 404: Resource not found.</h1>');
-    }
 });
 
 // 404 handler
@@ -1036,6 +1163,9 @@ webapp.use((req, res) => {
     res.send('<h1>Error 404: Resource not found.</h1>');
 });
 
+webapp.listen(port, () => {
+    console.log("App listening on port " + port);
+});
 
 // https://www.w3schools.com/nodejs/nodejs_filesystem.asp
 // MAIN REFERENCE: https://www.youtube.com/watch?v=fyc-4YmgLu0 bless this man heart fr 
