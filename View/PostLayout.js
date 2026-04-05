@@ -213,24 +213,23 @@ const PostLayout = {
             }),
             success: function(response) {
                 if (response.success) {
-                    const countSpan = buttonElement.find('span');
+                    const countSpan = wrapper.find('.counter');
                     countSpan.text(response.data.newCount);
 
-                    // Toggle the active class
-                    if (buttonElement.hasClass('active')) {
-                        buttonElement.removeClass('active');
-                    } else {
-                        buttonElement.addClass('active');
-
-                        // If like is clicked, remove active from dislike
-                        if (type === 'updoot') {
-                            buttonElement.siblings('.downdoot-btn').removeClass('active');
-                        }
-                        // If dislike is clicked, remove active from like
-                        else if (type === 'downdoot') {
-                            buttonElement.siblings('.updoot-btn').removeClass('active');
-                        }
+                    // Uncheck the opposite button visually
+                    if (type === 'updoot' && isActive) {
+                        $(postElement).find('.action-item[data-action="downdoot"] input').prop('checked', false);
+                        $(postElement).find('.action-item[data-action="downdoot"] .counter').text(response.data.newDownCount ?? $(postElement).find('.action-item[data-action="downdoot"] .counter').text());
+                    } else if (type === 'downdoot' && isActive) {
+                        $(postElement).find('.action-item[data-action="updoot"] input').prop('checked', false);
                     }
+
+                    wrapper.addClass('active');
+                    setTimeout(() => wrapper.removeClass('active'), 200);
+                } else {
+                    const checkbox = wrapper.find('input[type="checkbox"]');
+                    checkbox.prop('checked', !isActive);
+                    alert('Failed to process interaction... :(');
                 }
             },
             error: function(error) {
