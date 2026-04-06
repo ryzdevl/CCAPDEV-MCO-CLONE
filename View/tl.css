@@ -133,7 +133,7 @@ body.lightmode #logo-dark {
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
-    margin-right:8px;
+    margin-right:14px;
 }
 
 .divider {
