@@ -26,8 +26,16 @@ document.addEventListener('DOMContentLoaded', function() {
         if (confirm('Are you sure you want to log out?')) {
             localStorage.removeItem('currentUser');
             localStorage.removeItem('notificationsEnabled');
-            alert('Successfully logged out');
-            window.location.href = 'Login-Page.html';
+            
+            // Tell parent to close modal first
+            if (window.parent !== window) {
+                window.parent.postMessage({ type: 'closeSettingsModal' }, '*');
+                setTimeout(() => {
+                    window.parent.location.href = 'Login-Page.html';
+                }, 100);
+            } else {
+                window.parent.location.href = 'Login-Page.html';
+            }
         }
     };
     
