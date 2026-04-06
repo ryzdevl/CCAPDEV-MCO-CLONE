@@ -44,24 +44,13 @@ It implements core concepts of API design, real-time notifications, media manage
 # B. Requirements
 
   - **Runtime**: Node.js v18+
-  - **Database**: MongoDB (local or Atlas)
+  - **Database**: MongoDB Compass
   - **Media Storage**: Cloudinary account
   - **Dependencies** (install via `npm`):
 
       ```bash
       npm install
       ```
-
-  - **Environment Variables** — create a `.env` file in the root:
-
-    ```env
-    MONGO_URI=your_mongodb_connection_string
-    PORT=6767
-    CLOUDINARY_CLOUD_NAME=your_cloud_name
-    CLOUDINARY_API_KEY=your_api_key
-    CLOUDINARY_API_SECRET=your_api_secret
-    ```
-
 ---
 
 # C. Roles
