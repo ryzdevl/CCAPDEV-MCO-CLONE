@@ -1,42 +1,36 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <!--Built and inspired by login page layout to match consistency tyty-->
-    <title>Create Account Page</title>
+    <title>Inkling</title>
     <link rel="stylesheet" href="stylesheet.css">
     <link rel="stylesheet" href="login-design.css">
-    <link rel="stylesheet" href="Create Account Page.css">
-    <!-- <script src="/Controller/themeswitch.js" defer></script> -->
-    <script src="/Controller/Account.js" defer></script>
+    <script type="text/javascript" src="themeswitch.js" defer></script>
+    <script src="Account.js"></script>
 </head>
+
 <body>
+
     <img src="../assets/login-logo-lightmode.png" alt="Inkling" class="logo-img" id="logo">
     <img src="../assets/login-logo-darkmode.png" alt="Inkling" class="logo-img" id="logo-dark">
         
     <div class="container">
-        <form onsubmit="register(event)" method="post"> <!-- This will link it onto the account handler js file-->
-                <input type="email" placeholder="Email" class="input-box" required>
-                <br><br>
-                <input type="password" placeholder="Password" class="input-box" required>
-                <br><br>
-                <input type="date" placeholder="Birthday" class="input-box" required>
-                <br><br>
-                <input type="text" placeholder="Username" class="input-box" required>
-                <p>Already have an account? <a href="Login-Page.html">Login</a></p>
-                <br><br>
-                <button class="btn">Create Account</button>
-                <!--Account created pop-up-->
-            </div>
-        </form>
-    
-    </div>
+       <form onsubmit="login(event)" method="post">
+        <input type="text" id="username" placeholder="Username" class="input-box">
+        <br><br>
+        <input type="password" id="password" placeholder="Password" class="input-box">
+        <p>Don't have an account? <a href="Create Account Page.html">Sign Up</a></p>
+        <br><br>
+        <button type="submit" class="btn">Login</button>
+    </form>
+        <a href="Home-Page.html" class="btn temp-btn">Temporary</a>
+    </div>    
 
-<script src="/Controller/popup script.js"></script> 
 
 </body>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="/Controller/AnimatedBG.js"></script>
+    <script src="AnimatedBG.js"></script>
 
 </html>
