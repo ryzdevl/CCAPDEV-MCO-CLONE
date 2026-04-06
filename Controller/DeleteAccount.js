@@ -5,7 +5,6 @@ function validateDeleteForm(event) {
     const password = $('#password').val();
     const confirmPassword = $('#passwordconfirm').val();
 
-    // Validate
     if (!reason || !password || !confirmPassword) {
         alert('Please fill in all fields!');
         return;
@@ -16,33 +15,50 @@ function validateDeleteForm(event) {
         return;
     }
 
-    // Extra confirmation
     if (!confirm('Are you absolutely sure you want to delete your account? This cannot be undone!')) {
         return;
     }
 
     $.ajax({
-        url: `/api/users/${currentUser._id}/delete-account`,
-        method: 'DELETE',
-        contentType: 'application/json',
-        data: JSON.stringify({ password: password }),
+        url: '/api/me',
+        method: 'GET',
+        xhrFields: { withCredentials: true },
         success: function(response) {
-            if (response.success) {
-                // Clear localStorage and cookie
-                localStorage.removeItem('currentUser');
-                // Show popup then redirect
-                $('#popup').show();
-            } else {
-                alert('Error: ' + response.error);
+            if (!response.success) {
+                alert('Session expired. Please log in again.');
+                window.location.href = '/View/LandingPage.html';
+                return;
             }
-        },
-        error: function(xhr) {
-            alert(xhr.responseJSON?.error || 'Failed to delete account. Please check your password.');
+
+            const userId = response.data._id;
+
+            $.ajax({
+                url: `/api/users/${userId}/delete-account`,
+                method: 'DELETE',
+                contentType: 'application/json',
+                xhrFields: { withCredentials: true },
+                data: JSON.stringify({ password: password }),
+                success: function(res) {
+                    if (res.success) {
+                        localStorage.removeItem('currentUser');
+                        $('#popup').show();
+                    } else {
+                        alert('Error: ' + res.error);
+                    }
+                },
+                error: function(xhr) {
+                    console.error('Delete error:', xhr.status, xhr.responseText);
+                    alert(xhr.responseJSON?.error || 'Failed to delete account. Please check your password.');
+                }
+            });
+        },                                       
+        error: function() {                       
+            alert('Session expired. Please log in again.');
+            window.location.href = '/View/LandingPage.html';
         }
-    });
+    });                                            
 }
 
-// When user clicks OK on the popup, redirect to home
 function closePopup() {
     window.location.href = '/View/LandingPage.html';
 }
