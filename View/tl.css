@@ -133,12 +133,13 @@ body.lightmode #logo-dark {
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
-    margin-left:5px;
+    margin-right:8px;
 }
 
 .divider {
     width: 90%;
     margin: 10px auto;
+    margin-top: 5px;
     border: 1px solid var(--secondary);
 }
 
@@ -367,7 +368,7 @@ a {
 
 
 #leaderboard {
-    height:52vh;
+    height:53vh;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
