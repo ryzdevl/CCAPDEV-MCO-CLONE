@@ -1,13 +1,6 @@
 function validateDeleteForm(event) {
     event.preventDefault();
 
-    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    if (!currentUser) {
-        alert('Please log in first!');
-        window.location.href = '/Login-Page.html';
-        return;
-    }
-
     const reason = $('#confirmdelete').val().trim();
     const password = $('#password').val();
     const confirmPassword = $('#passwordconfirm').val();
@@ -51,5 +44,5 @@ function validateDeleteForm(event) {
 
 // When user clicks OK on the popup, redirect to home
 function closePopup() {
-    window.location.href = '/Home-Page.html';
+    window.location.href = '/View/LandingPage.html';
 }
