@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>About INKLING</title>
+    <link rel="stylesheet" href="stylesheet.css">
+    <link rel="stylesheet" href="AboutPage.css">
+</head>
+<body>
+
+    <div id="webGLApp"></div>
+    <a href="LandingPage.html" class="back-btn">← Back</a>
+
+    <div class="about-panel">
+
+        <div class="faq-item">
+            <h2>What is INKLING?</h2>
+            <p>INKLING is a forum-style web application designed specifically for creatives. It provides a space where artists, designers, writers, photographers, filmmakers, and other creative professionals can come together to share ideas, showcase their work, and explore career opportunities.</p>
+            <p>INKLING is a community for growth, collaboration, and professional development.</p>
+        </div>
+
+        <div class="faq-item">
+            <h2>Who Can Benefit from INKLING?</h2>
+            <p>INKLING is perfect for anyone in the creative industry who wants to:</p>
+            <ul>
+                <li>Discover career opportunities tailored to their skills and interests</li>
+                <li>Build and showcase a strong portfolio</li>
+                <li>Connect with like-minded individuals</li>
+                <li>Get inspired by peers and mentors</li>
+                <li>Engage in healthy competition and challenges</li>
+            </ul>
+            <p>Whether you're just starting out or already an established professional, INKLING helps you grow your creative career.</p>
+        </div>
+
+        <div class="faq-item">
+            <h2>Why Choose INKLING?</h2>
+            <p>INKLING is built for Creatives by Creatives, focusing on:</p>
+            <ul>
+                <li><strong>Empowerment:</strong> Encouraging users to take charge of their career paths.</li>
+                <li><strong>Community:</strong> Fostering connections with like-minded individuals.</li>
+                <li><strong>Growth:</strong> Helping users strengthen their portfolios and skills.</li>
+                <li><strong>Opportunity:</strong> Providing access to relevant jobs, collaborations, and projects.</li>
+            </ul>
+        </div>
+
+        <div class="Features">
+            <h2>Meet The Team</h2>
+            <div class="features-row">
+                <div class="feature-card" onclick="window.location.href='https://github.com/scp-noeyedgirl'">
+                    <h3>Beatrice Roldan</h3>
+                    <p>Main web designer, Full stack developer</p>
+                </div>
+                <div class="feature-card" onclick="window.location.href='https://github.com/nelle-png'">
+                    <h3>Winelle Tolentino</h3>
+                    <p>Main web developer, Full stack developer</p>
+                </div>
+                <div class="feature-card" onclick="window.location.href='https://github.com/ryzdevl'">
+                    <h3>Ryan Malapitan</h3>
+                    <p>Main deployment manager, Back end developer</p>
+                </div>
+                <div class="feature-card" onclick="window.location.href='https://github.com/maumojica12'">
+                    <h3>Maurienne Mojica</h3>
+                    <p>Supporting web developer, Front end developer</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="faq-item" id="dependencies">
+            <h2>Dependencies</h2>
+            <table class="deps-table">
+                <thead>
+                    <tr>
+                        <th>Package</th>
+                        <th>Version</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>bcrypt</td>
+                        <td>6.0.0</td>
+                        <td>Password hashing</td>
+                    </tr>
+                    <tr>
+                        <td>express</td>
+                        <td>5.2.1</td>
+                        <td>API routes and handles HTTP requests</td>
+                    </tr>
+                    <tr>
+                        <td>mongoose</td>
+                        <td>9.2.4</td>
+                        <td>ODM library for MongoDB</td>
+                    </tr>
+                    <tr>
+                        <td>multer</td>
+                        <td>2.1.1</td>
+                        <td>Middleware for handling uploads</td>
+                    </tr>
+                    <tr>
+                        <td>nodemon</td>
+                        <td>3.1.14</td>
+                        <td>Restarts server when changes are detected</td>
+                    </tr>
+                    <tr>
+                        <td>path</td>
+                        <td>0.12.7</td>
+                        <td>Node.js utility</td>
+                    </tr>
+                    <tr>
+                        <td>cookie-parser</td>
+                        <td>1.4.7</td>
+                        <td>Parses HTTP cookies</td>
+                    </tr>
+                    <tr>
+                        <td>cloudinary</td>
+                        <td>2.0.0</td>
+                        <td>Cloud based media storage</td>
+                    </tr>
+                    <tr>
+                        <td>multer-storage-cloudinary</td>
+                        <td>4.0.0</td>
+                        <td>Cloudinary storage engine for Multer</td>
+                    </tr>
+                    <tr>
+                        <td>dotenv</td>
+                        <td>16.0.0</td>
+                        <td>Loads environment variables from a .env</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="faq-item" id="external-sources">
+            <h2>External Sources</h2>
+            <table class="deps-table">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Source</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Icons</td>
+                        <td><a href="https://fonts.google.com/icons">Material symbols and icons - Google Fonts</a></td>
+                    </tr>
+                    <tr>
+                        <td>Animated Background</td>
+                        <td><a href="https://codepen.io/cameronknight/pen/ogxWmBP">Interactive Liquid Gradient using Three.js. (n.d.). CodePen.</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="AnimatedBG.js"></script>
+    <script src="AboutPage.js"></script>
+</body>
+</html>
