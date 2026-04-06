@@ -1,30 +1,28 @@
+body{
+    min-height: 100vh;
+    min-width: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    overflow-y: hidden;
+}
 
 #logo {
     display: none;
 }
 
-#logo-dark {
-    display: block;
-}
-
-body.lightmode #logo-dark {
-    display: none;
-}
-
-body.lightmode #logo {
-    display: block;
-}
-
 .container {
     width: 80%;
-    margin: auto;
+    margin: 50px;
+    margin-top: 10px;
     text-align: center; 
     justify-content: center;
     align-items: center;
 }
 
 .logo-img {
-    width: 550px;   
+    width: 700px;   
     height: auto; 
     margin: 40px auto 0 auto;
 }
@@ -35,7 +33,7 @@ body.lightmode #logo {
     font-size: 16px;
     border-radius: 10px;
     border: none;
-    background-color: var(--secondary);
+    background-color: var(--tertiary);
 }
 
 .btn {
@@ -44,7 +42,7 @@ body.lightmode #logo {
     font-size: 14px;
     border: none;
     border-radius: 20px;
-    background-color: var(--secondary);
+    background-color: var(--tertiary);
     color: var(--posts);
     cursor: pointer;
 }
@@ -60,4 +58,13 @@ form p {
     display: inline-block;
     margin-top: 20px; 
     text-decoration: none;
+}
+
+#webGLApp {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
 }
