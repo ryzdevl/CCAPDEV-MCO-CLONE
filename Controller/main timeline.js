@@ -215,6 +215,29 @@ $(document).ready(function() {
             });
         }
 
+        // Settings modal handler
+        $("#tosettings").click(function(e) {
+            e.preventDefault();
+            $("#settings-iframe").attr("src", "Profile Settings Page.html");
+            $("#settings-modal").fadeIn(300);
+        });
+
+        $(".close-settings-modal").click(function() {
+            $("#settings-modal").fadeOut(300);
+            setTimeout(function() {
+                $("#settings-iframe").attr("src", "");
+            }, 300);
+        });
+
+        $(window).click(function(e) {
+            if(e.target == $("#settings-modal")[0]) {
+                $("#settings-modal").fadeOut(300);
+                setTimeout(function() {
+                    $("#settings-iframe").attr("src", "");
+                }, 300);
+            }
+        });
+
         function challengeOTD(){
             document.getElementById('seeforum').addEventListener("click", () => {
                 const searchInput = document.getElementById("search-input");
