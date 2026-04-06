@@ -51,10 +51,6 @@ function displayThreadReplies(replies) {
     }
     
     for (let i = 0; i < replies.length; i++) {
-        console.log('Reply author ID:', replies[i].user?._id);
-        console.log('Current user ID:', window.currentUser?._id);
-        console.log('Is reply author?', replies[i].user?._id === window.currentUser?._id);
-        
         const replyHtml = TLPostLayout.render(replies[i]);
         container.append(replyHtml);
     }
@@ -187,6 +183,33 @@ $(window).click(function(e) {
         $('#reply-attachment').val('');
         currentReplyAttachments = [];
         currentThreadPostId = null;
+    }
+});
+
+// Make entire post clickable to open thread modal
+$(document).on('click', '.post', function(e) {
+    if ($(e.target).closest('.updoot-btn, .downdoot-btn, .star-btn, .share-btn, .post-attachment, .see-more-overlay, .attachment-grid, .post-username, .post-avatar, a, button, .action-item, .comment-btn').length) {
+        return;
+    }
+    
+    const postData = $(this).data('post-data');
+    
+    if (postData && postData._id) {
+        openThreadModal(postData._id, postData);
+    } else {
+        const postId = $(this).data('postId');
+        if (postId && window.currentUser) {
+            // Fetch post data from API if not stored
+            $.ajax({
+                url: `/api/posts/${postId}`,
+                method: 'GET',
+                success: function(response) {
+                    if (response.success && response.data) {
+                        openThreadModal(postId, response.data);
+                    }
+                }
+            });
+        }
     }
 });
 
