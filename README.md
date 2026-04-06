@@ -216,24 +216,29 @@ It implements core concepts of API design, real-time notifications, media manage
 
 # J. Running the Program
 
-  I. Start the Server
+  A. Running the Program Locally  
 
-  ```bash
-  node Server.js  
-  ```
+  1. Start the Server 
+```bash
+     node Server.js  
+```
 
-  II. Access the Application  
-  Open your browser and go to:
-  ```bash
-  http://localhost:6767
-  ```
+  2. Access the Application  
+     Open your browser and go to:
+```bash
+     http://localhost:6767
+```
 
-  III. First-Time Setup
+  3. First-Time Setup
 
-    a. Navigate to the Create Account page
-    b. Register with a unique username and email
-    c. Log in and begin using the feed
+     a. Navigate to the Create Account page  
+     b. Register with a unique username and email  
+     c. Log in and begin using the feed  
 
+  B. Using the Program on Web 
+```bash
+  https://ccapdev-mco-clone.onrender.com/LandingPage.html
+```
 ---
 
 # K. Error Handling & Edge Cases
