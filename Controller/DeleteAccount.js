@@ -1,6 +1,6 @@
 function validateDeleteForm(event) {
     event.preventDefault();
-
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
     const reason = $('#confirmdelete').val().trim();
     const password = $('#password').val();
     const confirmPassword = $('#passwordconfirm').val();
