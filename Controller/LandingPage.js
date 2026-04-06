@@ -2,7 +2,7 @@ $(document).ready(function() {
 
     function rollingBanner() {
         const rollingText = document.querySelector('#npmlist');
-        const npmlist = "bcrypt@6.0.0      cookie-parser@1.4.7      express@5.2.1      mongoose@9.2.4      multer@2.1.1      nodemon@3.1.14      path@0.12.7        ";
+        const npmlist = "bcrypt@6.0.0      cookie-parser@1.4.7      express@5.2.1      mongoose@9.2.4      multer@2.1.1      nodemon@3.1.14      path@0.12.7      cloudinary@2.0.0      multer-storage-cloudinary@4.0.0      dotenv@16.0.0        ";
             
         // Set text once first so clientWidth has a value
         rollingText.textContent = npmlist;
@@ -321,6 +321,12 @@ $(document).ready(function() {
             targetY = Math.max(0, Math.min(targetY, maxScroll));
         });
 
+        // expose a global so the arrow can use it
+        window.smoothScrollTo = function(y) {
+            const maxScroll = document.body.scrollHeight - window.innerHeight;
+            targetY = Math.max(0, Math.min(y, maxScroll));
+        };
+
         function update() {
             currentY += (targetY - currentY) * 0.08;
             window.scrollTo(0, currentY);
@@ -333,7 +339,5 @@ $(document).ready(function() {
     initLavaAnimation();
     rollingBanner();
 
-    document.getElementById('scrollArrow').addEventListener('click', () => {
-    document.querySelector('.mid').scrollIntoView({ behavior: 'smooth' });
-    });
+
 });
