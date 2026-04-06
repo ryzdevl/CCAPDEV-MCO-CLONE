@@ -340,23 +340,23 @@ $(document).ready(function() {
             $('#edit-post-content').val(currentContent);
             $('#edit-attachments-preview').empty();
 
-        currentAttachments.forEach(function(att) {
-            if (att.type === 'video') {
-                $('#edit-attachments-preview').append(`
-                    <div class="edit-img-item" data-src="${att.src}">
-                        <video src="${att.src}" style="width:60px; height:60px; object-fit:cover; border-radius:6px;" muted></video>
-                        <button class="remove-edit-img" data-src="${att.src}">✕</button>
-                    </div>
-                `);
-            } else {
-                $('#edit-attachments-preview').append(`
-                    <div class="edit-img-item" data-src="${att.src}">
-                        <img src="${att.src}" style="width:60px; height:60px; object-fit:cover; border-radius:6px;">
-                        <button class="remove-edit-img" data-src="${att.src}">✕</button>
-                    </div>
-                `);
-            }
-        });
+            currentAttachments.forEach(function(att) {
+                if (att.type === 'video') {
+                    $('#edit-attachments-preview').append(`
+                        <div class="edit-img-item" data-src="${att.src}">
+                            <video src="${att.src}" style="width:60px; height:60px; object-fit:cover; border-radius:6px;" muted></video>
+                            <button class="remove-edit-img" data-src="${att.src}">✕</button>
+                        </div>
+                    `);
+                } else {
+                    $('#edit-attachments-preview').append(`
+                        <div class="edit-img-item" data-src="${att.src}">
+                            <img src="${att.src}" style="width:60px; height:60px; object-fit:cover; border-radius:6px;">
+                            <button class="remove-edit-img" data-src="${att.src}">✕</button>
+                        </div>
+                    `);
+                }
+            });
 
             $('#edit-post-modal').data('postId', postId).css('display', 'flex');
         });
@@ -589,6 +589,17 @@ $(document).ready(function() {
             }
         });
 
+        // Header logout button handler
+        $("#header-logout-btn").click(function(e) {
+            e.preventDefault();
+            if (confirm('Are you sure you want to log out?')) {
+                localStorage.removeItem('currentUser');
+                localStorage.removeItem('notificationsEnabled');
+                alert('Successfully logged out');
+                window.location.href = 'Login-Page.html';
+            }
+        });
+
         function displayPosts(posts) {
             const postsContainer = $('.posts-section');
                 
@@ -801,7 +812,9 @@ window.addEventListener('message', function(event) {
             updatedUser.coverPic = window.currentUser.coverPic;
         }
         window.currentUser = updatedUser;
-        updateProfile(updatedUser);
+        if (typeof updateProfile === 'function') {
+            updateProfile(updatedUser);
+        }
         $("#profile-settings-modal").fadeOut(300);
         $("#profile-iframe").attr("src", "");
     }
