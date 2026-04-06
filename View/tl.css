@@ -139,7 +139,7 @@ body.lightmode #logo-dark {
 .divider {
     width: 90%;
     margin: 10px auto;
-    margin-bottom: 5px;
+    margin-top: 5px;
     border: 1px solid var(--secondary);
 }
 
