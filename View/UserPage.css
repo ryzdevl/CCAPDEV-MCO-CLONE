@@ -5,6 +5,10 @@ body{
     overflow-x: hidden;
 }
 
+#theme-switch{
+    top: 728px !important;
+}
+
 .headerbar {
     background-color: rgba(130, 72, 130, 0.9);
     font-family: 'Figtree';
@@ -65,6 +69,8 @@ a {
     gap: 15px;
     margin-right: 50px;
 }
+
+
 
 .headerbutton {
     display: inline-flex;
@@ -1340,11 +1346,12 @@ footer * {
 /* Settings button */
 .settings-btn {
     position: fixed;
-    bottom: 20px;
+    bottom: 80px;
     right: 20px;
-    width: 55px;
-    height: 55px;
-    background-color: var(--main);
+    width: 50px;
+    height: 50px;
+    background-color: rgba(130, 72, 130, 0.8);
+
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -1353,25 +1360,13 @@ footer * {
     z-index: 9999;
     text-decoration: none;
     transition: all 0.3s ease;
-    opacity: 70%;
     direction: ltr;
 }
 
-.settings-btn img {
-    width: 20px;
-    height: auto;
+#settings {
+        fill: var(--main);
 }
 
 .settings-btn:hover {
     transform: scale(1.1);
-    opacity: 70%;
-}
-
-/* Theme-specific colors */
-.lightmode .settings-btn {
-    background-color: var(--tertiary);
-}
-
-.lightmode .settings-btn:hover {
-    background-color: var(--tab-hover-bg);
 }
