@@ -48,20 +48,26 @@ a {
 
 .logo img {
     height: 50px;
-    opacity: 90%;
     width: auto;
+    opacity: 90%;
+    display: block; 
 }
 
+.logo {
+    flex-shrink: 0; 
+}
+
+/* If using lightmode, ensure logo shows */
 .lightmode #header-logo {
     filter: none !important;
     opacity: 1 !important;
     content: url('../assets/logo-darkmode.png') !important;
+    display: block; 
 }
 
 .headerbar {
     background: rgba(34, 8, 31, 0.9);
     backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
     font-family: 'Syne', sans-serif;
     padding: 0 40px;
     height: 56px;
@@ -70,7 +76,7 @@ a {
     top: 0;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-between; 
 }
 
 .headerbar::after {
@@ -83,11 +89,11 @@ a {
     background: linear-gradient(90deg, transparent, rgba(209,127,199,0.5), rgba(231,118,100,0.4), transparent);
 }
 
-/* Add this new container for the buttons */
 .header-buttons {
     display: flex;
     align-items: center;
     gap: 12px;
+    margin-left: auto;
 }
 
 .headerbutton {
