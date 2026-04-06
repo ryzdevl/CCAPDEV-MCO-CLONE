@@ -88,6 +88,10 @@
         <img id="team" src=" assets/team-dark.png" alt="My Photo">
     </div>
 
+    <div class="photo-team">
+        <img id="dependencies" src=" assets/DEPENDENCIES-DARKMODE.png" alt="My Photo">
+    </div>
+
     <footer class="site-footer">
         <div class="footer-container">
             <!-- Left: Brand + Terms -->
@@ -115,6 +119,7 @@
         const teamImage = document.getElementById("team");
         const headerLogo = document.getElementById("header-logo");
         const aboutLogo = document.getElementById("about-logo");
+        const dependenciesimg = document.getElementById("dependencies");
         const themeSwitchBtn = document.getElementById("theme-switch");
         function updateImages() {
             // TEAM PHOTO swap
@@ -129,6 +134,10 @@
             aboutLogo.src = document.body.classList.contains("lightmode")
             ? " assets/login-logo-lightmode.PNG"
             : " assets/login-logo-darkmode.png";
+            // DEPENDENCIES IMG
+            dependenciesimg.src = document.body.classList.contains("lightmode")
+            ? " assets/DEPENDENCIES-LIGHTMODE.png"
+            : " assets/DEPENDENCIES-DARKMODE.png";
         }
         // Run once when page loads
         setTimeout(updateImages, 10);
