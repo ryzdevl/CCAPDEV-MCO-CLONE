@@ -316,17 +316,16 @@ $(document).ready(function() {
         let targetY = window.scrollY;
 
         window.addEventListener('wheel', (e) => {
-            e.preventDefault();
             targetY += e.deltaY * 0.8;
-            targetY = Math.max(0, Math.min(targetY, document.body.scrollHeight - window.innerHeight));
-        }, { passive: false });
+            const maxScroll = document.body.scrollHeight - window.innerHeight;
+            targetY = Math.max(0, Math.min(targetY, maxScroll));
+        });
 
         function update() {
             currentY += (targetY - currentY) * 0.08;
             window.scrollTo(0, currentY);
             requestAnimationFrame(update);
         }
-
         update();
     }
 
