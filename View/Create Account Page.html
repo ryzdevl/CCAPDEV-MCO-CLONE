@@ -14,17 +14,18 @@
     <img src="../assets/login-logo-darkmode.png" alt="Inkling" class="logo-img" id="logo-dark">
         
     <div class="container">
-        <form onsubmit="register(event)" method="post"> <!-- This will link it onto the account handler js file-->
+        <form onsubmit="register(event)" method="post"> 
                 <input type="email" placeholder="Email" class="input-box" required>
+                <br><br>
+                <input type="text" onFocus="this.type='date'" onBlur="if(!this.value)this.type='text'" placeholder="Birth Date" class="input-box" required>
+                <br><br>
+                <input type="text" placeholder="Username" class="input-box" required>
                 <br><br>
                 <input type="password" placeholder="Password" class="input-box" required>
                 <br><br>
-                <input type="date" placeholder="Birthday" class="input-box" required>
+                <p>Already have an account? <a href="Login-Page.html" style="font-style: italic">Login</a></p>
                 <br><br>
-                <input type="text" placeholder="Username" class="input-box" required>
-                <p>Already have an account? <a href="Login-Page.html">Login</a></p>
-                <br><br>
-                <button class="btn">Create Account</button>
+                <button class="btn"><span>Create Account</span></button>
                 <!--Account created pop-up-->
             </div>
         </form>
