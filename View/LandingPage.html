@@ -3,7 +3,7 @@
 <head>
     <title>INKLING</title>
     <link rel="stylesheet" href="stylesheet.css">
-    <link rel="stylesheet" href="LandingPage.css">
+    <link rel="stylesheet" href="LandingPage.css" defer>
 </head>
 <body>
     <div class="maincontainer">
@@ -21,33 +21,33 @@
                     <img src="../assets/interior.jpg" alt="Interior Designer">
                 </div>
             </div>
-            <div class="scroll-arrow" id="scrollArrow">
-                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M480-344 240-584l56-56 184 184 184-184 56 56-240 240Z"/></svg>  
+            <div class="scroll-arrow" id="scrollArrow" onclick="window.smoothScrollTo(document.querySelector('#invisscrolltag').offsetTop);">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3">
+                    <path d="M480-344 240-584l56-56 184 184 184-184 56 56-240 240Z"/>
+                </svg>  
             </div>
         </div>
-
+        <span id="invisscrolltag">m</span>
         <div class="mid"> 
+                
                 <h2 class="aboutheader"> find your people, grow your portfolios, make your dreams reality. </h2>
                 <h2 class="aboutheader">  it takes an inkling of an idea to paint a canvas of opportunity </h2>
+                <div class="buttons">
+                    <a href="Login-Page.html">
+                        <button class="btn-55"><span>Login</span></button>
+                    </a>
+
+                    <a href="Create Account Page.html">
+                        <button class="btn-55"><span>Register</span></button>
+                    </a>
+                </div>
         </div>
-
-        <div class="buttons">
-            <a href="Login-Page.html">
-                <button class="btn-55"><span>Login</span></button>
-            </a>
-
-            <a href="Create Account Page.html">
-                <button class="btn-55"><span>Register</span></button>
-            </a>
-        </div>
-
-        <br><br><br>
 
         <footer id="bot">
             <div id="rollingcontainer">
                 <div id="npmlist"></div>
             </div>
-            <div style="display:flex; justify-content:space-between; width:100%; padding: 40px 60px; box-sizing:border-box;">
+            <div id="innerbot">
                 <div id="left">
                     <h3>INKLING</h3>
                     <p>Built by Creatives for Creatives</p>
