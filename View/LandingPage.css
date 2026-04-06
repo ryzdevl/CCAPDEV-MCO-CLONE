@@ -1,21 +1,36 @@
 @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Inter:wght@300;500&display=swap');
+@import url('stylesheet.css');
 
 html {
+    height: 100%;
     margin: 0;
     padding: 0;
     user-select: none;
     scroll-behavior: smooth;
-        overflow-x: hidden;
+    overflow-x: hidden;
+    max-width: 100%;
 }
 
 body{
-    min-height: 100vh;
-    min-width: auto;
-    display: flex;
+    height: auto;
+    min-height: 100%;
+    max-width: 100%;
+    display: block;
     justify-content: center;
     align-items: center;
     margin: 0;
     overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.pill-wrapper {
+    width: min(1300px, 90vw);  /* shrinks on smaller screens */
+    height: 220px;
+}
+
+.pill {
+    width: min(1300px, 90vw);
+    height: 220px;
 }
 
 * {
@@ -23,14 +38,15 @@ body{
 }
 
 .maincontainer{
-    min-height: 100vh;
-    min-width: auto;
+    height: auto;
+    width: 100%;
     display: flex;
     align-items: center;
     flex-direction: column;
     opacity: 0;
     animation: fadeIn 1.2s ease forwards;
     animation-delay: 0.3s;
+    overflow:hidden;
 }
 
 @keyframes fadeIn {
@@ -44,13 +60,13 @@ body{
     }
 }
 
-
 #header-logo {
     margin: 10px 0px 0px 0px;
     opacity: 0;
     animation: fadeIn 1.2s ease forwards;
     animation-delay: 0.5s;
     margin: 10px 0px 0px 0px;
+    margin-bottom: 24px;
 }
 
 #theme-switch{
@@ -58,18 +74,22 @@ body{
     right: 40px;
 }
 
-.top{
+.top {
     display: flex;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
-
+    width: 100%;
+    gap: 20px;
 }
+
 
 h2{
     font-family: 'Syne', sans-serif;
     color: var(--posts);
     font-size: 2vw;
     margin: 0;
-    position: absolute;
+    position: relative;
     text-transform: uppercase;
     font-weight: 800;
     transition: 0.3s;
@@ -83,8 +103,8 @@ h2{
 
 .pill-wrapper {
     position: relative;
-    width: 1300px;
-    height: 500px; /* taller than pill so blobs spill out */
+    width: min(1300px, 90vw);
+    height: 300px; /* match pill height exactly, no overflow */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -132,8 +152,7 @@ h2{
     width: 100%;
     display: flex;
     justify-content: center;
-    position: absolute;
-    top: 750px;
+    margin-top: 20px;
 }
 
 .scroll-arrow svg{
@@ -153,15 +172,15 @@ h2{
 }
 
 #rollingcontainer {
-    position: absolute;
-    top: 900px;
+    position: relative;
+    top: unset;
     left: 0;
     right: 0;
-    transform: translateY(-50%);
+    transform: none;
     white-space: nowrap;
     overflow: hidden;
     width: 100%;
-        opacity: 0;
+    opacity: 0;
     animation: fadeIn 1.2s ease forwards;
     animation-delay: 0.9s;
 }
@@ -236,8 +255,8 @@ h2{
     align-items: center;
     height: 100%;
     width: 100%;
-    padding: 200px;
-    margin-top: 100px;
+    padding: 60px 200px;
+    margin-top: 20px;
     gap: 50px; 
     box-sizing: border-box;
 }
@@ -246,6 +265,38 @@ h2{
     font-size: 1.5vw;
     margin: 0; 
     position: static; 
+}
+
+#bot {
+    width: 100%;
+    height: 150px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgba(34, 8, 31, 0.8);
+}
+
+#bot-inner {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 40px 60px;
+    box-sizing: border-box;
+}
+
+#left, #right {
+    color: var(--posts);
+    font-family: 'Syne', sans-serif;
+}
+
+#right ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#left h3 {
+    font-family: 'Syne', sans-serif;
 }
 
 #webGLApp {
@@ -257,3 +308,117 @@ h2{
     z-index: -1;
 }
 
+html {
+    overflow-y: scroll; 
+    scrollbar-width: none; 
+}
+
+html::-webkit-scrollbar {
+    display: none; 
+}
+
+/* BUTTONS */
+
+#right a {
+    font-family: 'Syne', sans-serif;
+    font-size: 1vw;
+    font-weight: 800;
+    letter-spacing: -1px;
+    text-transform: uppercase;
+    color: var(--posts);
+    text-decoration: none;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+    display: block;  
+    text-align: right;
+}
+
+
+#right a:hover {
+    opacity: 1;
+}
+
+.buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 48px;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-55,
+.btn-55 *,
+.btn-55 :after,
+.btn-55 :before,
+.btn-55:after,
+.btn-55:before {
+    border: 0 solid;
+    box-sizing: border-box;
+}
+
+.btn-55 {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-appearance: button;
+    background-color: #000;
+    background-image: none;
+    color: var(--posts);
+    cursor: pointer;
+    font-size: 100%;
+    line-height: 1.5;
+    margin: 0;
+    -webkit-mask-image: -webkit-radial-gradient(#000, #fff);
+    padding: 0;
+}
+
+.btn-55:disabled {
+    cursor: default;
+}
+
+.btn-55:-moz-focusring {
+    outline: auto;
+}
+
+.btn-55 svg {
+    display: block;
+    vertical-align: middle;
+}
+
+.btn-55 [hidden] {
+    display: none;
+}
+
+.btn-55 {
+    margin: 15px;
+    background: linear-gradient(90deg, var(--secondary), var(--accent));
+    border-radius: 999px;
+    box-sizing: border-box;
+    color: #000;
+    display: block;
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.2vw;
+    letter-spacing: -2px;
+    text-transform: uppercase;
+    overflow: hidden;
+    padding: 1.8rem 12rem;
+    position: relative;
+}
+
+.btn-55 span {
+    background: #3e2245;
+    border-radius: 999px;
+    color: var(--posts);
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.2vw;
+    letter-spacing: -2px;
+    display: grid;
+    inset: 2px;
+    place-items: center;
+    position: absolute;
+    transition: background 0.3s;
+}
+
+.btn-55:hover span {
+    background: none;
+}
