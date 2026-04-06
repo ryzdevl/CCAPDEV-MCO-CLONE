@@ -589,14 +589,37 @@ $(document).ready(function() {
             }
         });
 
-        // Header logout button handler
         $("#header-logout-btn").click(function(e) {
             e.preventDefault();
             if (confirm('Are you sure you want to log out?')) {
-                localStorage.removeItem('currentUser');
-                localStorage.removeItem('notificationsEnabled');
-                alert('Successfully logged out');
-                window.location.href = 'Login-Page.html';
+                
+                // Call the backend logout endpoint
+                $.ajax({
+                    url: '/api/users/logout',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    success: function(response) {
+                        if (response.success) {
+                            localStorage.removeItem('currentUser');
+                            localStorage.removeItem('notificationsEnabled');
+                            alert('Successfully logged out');
+                            window.location.href = 'Login-Page.html';
+                        } else {
+                            // Still clear local even if backend fails
+                            localStorage.removeItem('currentUser');
+                            localStorage.removeItem('notificationsEnabled');
+                            alert('Successfully logged out');
+                            window.location.href = 'Login-Page.html';
+                        }
+                    },
+                    error: function() {
+                        // Fallback: clear local storage anyway
+                        localStorage.removeItem('currentUser');
+                        localStorage.removeItem('notificationsEnabled');
+                        alert('Successfully logged out');
+                        window.location.href = 'Login-Page.html';
+                    }
+                });
             }
         });
 
