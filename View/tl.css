@@ -127,13 +127,15 @@ body.lightmode #logo-dark {
     margin-bottom: 5px;
 }
 
-#bio{
+#bio {
     font-size: 14px;
-    max-width: 180px;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+    max-width: 170px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; 
+    -webkit-box-orient: vertical;
     overflow: hidden;
-    margin-right:14px;
+    text-overflow: ellipsis;
+    margin-right: 14px;
 }
 
 .divider {
