@@ -1294,7 +1294,7 @@ webapp.delete('/api/notifications', requireAuth, async (req, res) => {
 
 // FOR GENERAL PAGE HANDLING 
 webapp.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'View', 'Home-Page.html'));
+    res.sendFile(path.join(__dirname, 'View', 'LandingPage.html'));
 });
 
 webapp.get(/\.html$/, (req, res) => {
