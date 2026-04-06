@@ -6,6 +6,7 @@ body{
 }
 
 #theme-switch{
+    position: fixed;
     top: 728px !important;
 }
 
