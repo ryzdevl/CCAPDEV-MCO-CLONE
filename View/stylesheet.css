@@ -45,7 +45,7 @@ body{
     justify-content: flex-end;
     align-items: center;
     position: absolute;
-    top: 450px;
+    top: 10px;
     right: 20px;
     cursor: pointer;
     transition: width 0.7s;
